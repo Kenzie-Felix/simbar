@@ -1,0 +1,10 @@
+/* Import the custom design system */
+@import './design-system.css';
+
+/* Bootstrap 5 utilities are loaded via CDN in the layout */
+/* No Tailwind needed - we're using our custom design system */
+
+/* Base styles for the application */
+:root {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}

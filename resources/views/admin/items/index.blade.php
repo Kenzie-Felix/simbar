@@ -1,0 +1,212 @@
+@extends('layouts.app')
+
+@section('title', 'Manage Items - SIMBAR')
+
+@section('content')
+<style>
+    .page-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .page-header-content h1 {
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-bold);
+        color: var(--gray-900);
+        margin-bottom: var(--spacing-sm);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+    .page-header-content p {
+        font-size: var(--font-size-sm);
+        color: var(--gray-500);
+        margin: 0;
+    }
+
+    .items-table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .items-table thead th {
+        padding: var(--spacing-md) var(--spacing-lg);
+        text-align: left;
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-semibold);
+        color: var(--gray-700);
+        background-color: var(--gray-50);
+        border-bottom: 1px solid var(--gray-200);
+    }
+
+    .items-table tbody td {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-bottom: 1px solid var(--gray-200);
+        font-size: var(--font-size-sm);
+    }
+
+    .items-table tbody tr:hover {
+        background-color: var(--gray-50);
+    }
+
+    .items-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: var(--spacing-xs);
+    }
+
+    .action-buttons form {
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .page-header-content {
+            width: 100%;
+        }
+
+        .items-table thead th,
+        .items-table tbody td {
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: var(--font-size-xs);
+        }
+
+        .action-buttons {
+            flex-wrap: wrap;
+        }
+    }
+</style>
+
+<div style="max-width: 1400px; margin: 0 auto;">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-content">
+            <h1>
+                <i class="bi bi-boxes"></i>
+                Items
+            </h1>
+            <p>Manage inventory items</p>
+        </div>
+        <a href="{{ route('admin.items.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add Item
+        </a>
+    </div>
+
+    <!-- Alerts -->
+    @if (session('success'))
+        <div class="alert alert-success">
+            <i class="bi bi-check-circle alert-icon"></i>
+            <div>{{ session('success') }}</div>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            <i class="bi bi-exclamation-circle alert-icon"></i>
+            <div>{{ session('error') }}</div>
+        </div>
+    @endif
+
+    <!-- Items Table Card -->
+    <div class="card">
+        <div class="card-body">
+            @if ($items->count() > 0)
+                <div style="overflow-x: auto;">
+                    <table class="items-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Location</th>
+                                <th style="text-align: center;">Total Stock</th>
+                                <th style="text-align: center;">Available</th>
+                                <th>Condition</th>
+                                <th style="text-align: center;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($items as $item)
+                                <tr>
+                                    <td>
+                                        <small style="color: var(--gray-500);">{{ $item->code }}</small>
+                                    </td>
+                                    <td>
+                                        <strong>{{ $item->name }}</strong>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-secondary">{{ $item->category->name }}</span>
+                                    </td>
+                                    <td>
+                                        <small style="color: var(--gray-500);">{{ $item->location->name }}</small>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span style="font-weight: var(--font-weight-semibold);">{{ $item->total_stock }}</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span style="font-weight: var(--font-weight-bold); color: var(--primary);">{{ $item->available_stock }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-{{ $item->getConditionBadgeColor() }}">
+                                            {{ $item->condition }}
+                                        </span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <div class="action-buttons">
+                                            <a href="{{ route('admin.items.show', $item) }}" 
+                                               class="btn btn-sm btn-outline-primary" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{{ route('admin.items.edit', $item) }}" 
+                                               class="btn btn-sm btn-outline-primary" title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <form method="POST" action="{{ route('admin.items.destroy', $item) }}" 
+                                                  onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                @if ($items->hasPages())
+                    <div style="display: flex; justify-content: center; margin-top: var(--spacing-xl);">
+                        {{ $items->links() }}
+                    </div>
+                @endif
+            @else
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="bi bi-inbox"></i>
+                    </div>
+                    <div class="empty-state-text">No items found</div>
+                    <p style="color: var(--gray-500); margin-bottom: var(--spacing-lg);">Create an item to get started with inventory management.</p>
+                    <a href="{{ route('admin.items.create') }}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Create First Item
+                    </a>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
+
+@endsection
