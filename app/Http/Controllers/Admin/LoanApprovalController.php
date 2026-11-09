@@ -36,11 +36,11 @@ class LoanApprovalController extends Controller
         $loans = $query->latest('requested_at')->paginate(20);
 
         $statuses = [
-            'Menunggu Persetujuan' => 'Pending Approval',
-            'Disetujui' => 'Approved',
-            'Ditolak' => 'Rejected',
-            'Dipinjam' => 'Borrowed',
-            'Dikembalikan' => 'Returned',
+            'Pending Approval' => 'Pending Approval',
+            'Approved' => 'Approved',
+            'Rejected' => 'Rejected',
+            'Borrowed' => 'Borrowed',
+            'Returned' => 'Returned',
         ];
 
         // Statistics

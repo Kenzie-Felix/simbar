@@ -107,6 +107,93 @@
         .page-header {
             flex-direction: column;
         }
+
+        .form-card {
+            padding: var(--spacing-lg);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .form-container {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .form-card {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+        }
+
+        .page-header {
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .page-header-content h1 {
+            font-size: var(--font-size-lg);
+        }
+
+        .info-card {
+            padding: var(--spacing-md);
+            height: auto;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .info-card h6 {
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .danger-card {
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .danger-card h6 {
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .danger-card p {
+            font-size: var(--font-size-xs);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .info-item {
+            font-size: var(--font-size-xs);
+            margin-bottom: var(--spacing-xs);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-header-content h1 {
+            font-size: var(--font-size-base);
+            gap: var(--spacing-sm);
+        }
+
+        .page-header-content p {
+            font-size: var(--font-size-xs);
+        }
+
+        .form-card {
+            padding: var(--spacing-md);
+        }
+
+        .info-card h6 {
+            font-size: var(--font-size-xs);
+        }
+
+        .info-item {
+            font-size: var(--font-size-xs);
+        }
+
+        .danger-card h6 {
+            font-size: var(--font-size-xs);
+        }
+
+        .btn-danger {
+            width: 100%;
+        }
     }
 </style>
 

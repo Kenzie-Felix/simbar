@@ -94,6 +94,126 @@
             grid-template-columns: 1fr;
         }
     }
+
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .page-title {
+            font-size: var(--font-size-lg);
+        }
+
+        .page-subtitle {
+            font-size: var(--font-size-xs);
+        }
+
+        .form-section {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-section-title {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .item-row {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .item-row > div:first-child {
+            grid-template-columns: 1fr !important;
+            gap: var(--spacing-md) !important;
+        }
+
+        .summary-box {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .summary-row {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .summary-label {
+            font-size: var(--font-size-xs);
+        }
+
+        .summary-value {
+            font-size: var(--font-size-base);
+        }
+
+        .form-control,
+        .form-select {
+            font-size: 16px;
+            padding: var(--spacing-sm) var(--spacing-md);
+        }
+
+        .form-label {
+            font-size: var(--font-size-xs);
+        }
+
+        table {
+            font-size: var(--font-size-xs) !important;
+        }
+
+        table th,
+        table td {
+            padding: var(--spacing-sm) !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title {
+            font-size: var(--font-size-base);
+            gap: var(--spacing-sm);
+        }
+
+        .page-subtitle {
+            font-size: var(--font-size-2xs);
+        }
+
+        .form-section {
+            padding: var(--spacing-md);
+        }
+
+        .form-section-title {
+            font-size: var(--font-size-sm);
+        }
+
+        .item-row {
+            padding: var(--spacing-md);
+        }
+
+        .form-control,
+        .form-select,
+        textarea {
+            font-size: 16px;
+        }
+
+        .btn {
+            font-size: var(--font-size-xs);
+            padding: var(--spacing-sm) var(--spacing-md);
+        }
+
+        .summary-box h5 {
+            font-size: var(--font-size-sm);
+        }
+
+        table {
+            font-size: var(--font-size-2xs) !important;
+        }
+
+        table th,
+        table td {
+            padding: var(--spacing-xs) !important;
+        }
+    }
 </style>
 
 <div style="max-width: 1400px; margin: 0 auto; padding: 0 var(--spacing-lg);">
@@ -134,20 +254,20 @@
                         <i class="bi bi-clipboard-check"></i> Select Loan to Return
                     </h3>
 
-                    <div style="margin-bottom: var(--spacing-lg);">
-                        <label for="loan_id" class="form-label" style="font-weight: var(--font-weight-medium); color: var(--gray-900);">Loan <span style="color: var(--danger);">*</span></label>
-                        <select class="form-select @error('loan_id') is-invalid @enderror" id="loan_id" name="loan_id" required>
-                            <option value="">-- Select a loan to return --</option>
-                            @foreach ($loans as $loan)
-                                <option value="{{ $loan->id }}" @if (old('loan_id') == $loan->id) selected @endif>
-                                    Loan #{{ $loan->id }} ({{ $loan->getTotalItemsCount() }} items, {{ $loan->getTotalQuantity() }} units) - Status: {{ $loan->status }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('loan_id')
-                            <div style="color: var(--danger); margin-top: var(--spacing-xs);">{{ $message }}</div>
-                        @enderror
-                    </div>
+                <div>
+                    <label for="loan_id" class="form-label" style="font-weight: var(--font-weight-medium); color: var(--gray-900);">Loan <span style="color: var(--danger);">*</span></label>
+                    <select class="form-select @error('loan_id') is-invalid @enderror" id="loan_id" name="loan_id" required>
+                        <option value="">-- Select a loan to return --</option>
+                        @foreach ($loans as $loan)
+                            <option value="{{ $loan->id }}" @if (old('loan_id') == $loan->id) selected @endif>
+                                Loan #{{ $loan->id }} ({{ $loan->getTotalItemsCount() }} items, {{ $loan->getTotalQuantity() }} units) - Status: {{ $loan->status }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('loan_id')
+                        <div style="color: var(--danger); margin-top: var(--spacing-xs);">{{ $message }}</div>
+                    @enderror
+                </div>
 
                     <!-- Loan Items (Dynamically populated) -->
                     <div id="loanItemsContainer" style="display: none;">

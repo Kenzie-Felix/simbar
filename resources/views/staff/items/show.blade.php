@@ -34,6 +34,75 @@
         gap: var(--spacing-lg);
     }
 
+    .item-detail-image {
+        width: 100%;
+        max-height: 600px;
+        object-fit: contain;
+        background: var(--gray-50);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--gray-200);
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+        transition: transform 0.3s ease;
+        cursor: zoom-in;
+    }
+
+    .item-detail-image:hover {
+        transform: scale(1.02);
+    }
+
+    /* Modal for zoomed image */
+    .image-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        padding: var(--spacing-lg);
+    }
+
+    .image-modal.active {
+        display: flex;
+    }
+
+    .image-modal-content {
+        position: relative;
+        max-width: 90vw;
+        max-height: 90vh;
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+    }
+
+    .image-modal-img {
+        max-width: 100%;
+        max-height: 85vh;
+        object-fit: contain;
+    }
+
+    .image-modal-close {
+        position: absolute;
+        top: var(--spacing-md);
+        right: var(--spacing-md);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: var(--radius-md);
+        padding: var(--spacing-sm) var(--spacing-md);
+        cursor: pointer;
+        font-size: var(--font-size-lg);
+        transition: all 0.2s ease;
+    }
+
+    .image-modal-close:hover {
+        background: rgba(0, 0, 0, 0.8);
+    }
+
     .detail-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -134,6 +203,18 @@
     <div class="content-grid">
         <!-- Main Content -->
         <div>
+            <!-- Item Image -->
+            <div>
+                <img src="{{ $item->getImageUrl() }}" alt="{{ $item->name }}" class="item-detail-image" onclick="zoomImage(this)" title="Click to zoom">
+                <!-- Image Zoom Modal -->
+                <div class="image-modal" id="imageModal">
+                    <div class="image-modal-content">
+                        <button class="image-modal-close" onclick="closeImageZoom()">&times;</button>
+                        <img src="{{ $item->getImageUrl() }}" alt="{{ $item->name }}" class="image-modal-img">
+                    </div>
+                </div>
+            </div>
+
             <!-- Item Information Card -->
             <div class="card" style="margin-bottom: var(--spacing-lg);">
                 <div class="card-header">
@@ -280,4 +361,36 @@
         </div>
     </div>
 </div>
+
+<script>
+    function zoomImage(img) {
+        const modal = document.getElementById('imageModal');
+        modal.classList.add('active');
+    }
+
+    function closeImageZoom() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('active');
+    }
+
+    // Close modal when clicking outside image
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('imageModal');
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeImageZoom();
+                }
+            });
+            
+            // Close with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeImageZoom();
+                }
+            });
+        }
+    });
+</script>
+
 @endsection

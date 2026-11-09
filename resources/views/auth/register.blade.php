@@ -101,24 +101,25 @@
     .register-button {
         width: 100%;
         padding: var(--spacing-md);
-        background-color: var(--primary);
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
         color: white;
         border: none;
         border-radius: var(--radius-md);
         font-size: var(--font-size-base);
         font-weight: var(--font-weight-medium);
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
         margin-bottom: var(--spacing-lg);
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
     }
 
     .register-button:hover {
-        background-color: var(--primary-dark);
-        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(30, 58, 138, 0.4);
     }
 
     .register-button:active {
-        transform: translateY(1px);
+        transform: translateY(0px);
     }
 
     .register-divider {
@@ -169,7 +170,7 @@
         <!-- Header -->
         <div class="register-header">
             <h1>Create Account</h1>
-            <p class="register-subtitle">SIMBAR - Sistem Manajemen Inventaris Barang Kantor</p>
+            <p class="register-subtitle">Join SIMBAR - Enterprise Inventory Management</p>
         </div>
 
         <!-- Errors -->
@@ -219,7 +220,7 @@
                     name="email" 
                     value="{{ old('email') }}" 
                     required
-                    placeholder="Enter your email"
+                    placeholder="Enter your email address"
                 >
                 @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -240,10 +241,10 @@
                 <span class="form-helper-text">
                     <strong>Password Requirements:</strong>
                     <ul>
-                        <li>At least 8 characters</li>
+                        <li>Minimum 8 characters</li>
                         <li>Uppercase and lowercase letters</li>
                         <li>At least one number</li>
-                        <li>At least one symbol (!@#$%^&*)</li>
+                        <li>At least one special character (!@#$%^&*)</li>
                     </ul>
                 </span>
                 @error('password')

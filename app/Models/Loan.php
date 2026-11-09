@@ -20,11 +20,11 @@ class Loan extends Model
     /**
      * Status Constants
      */
-    const STATUS_PENDING = 'Menunggu Persetujuan';
-    const STATUS_APPROVED = 'Disetujui';
-    const STATUS_REJECTED = 'Ditolak';
-    const STATUS_BORROWED = 'Dipinjam';
-    const STATUS_RETURNED = 'Dikembalikan';
+    const STATUS_PENDING = 'Pending Approval';
+    const STATUS_APPROVED = 'Approved';
+    const STATUS_REJECTED = 'Rejected';
+    const STATUS_BORROWED = 'Borrowed';
+    const STATUS_RETURNED = 'Returned';
 
     /**
      * Relationships

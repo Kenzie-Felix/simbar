@@ -4,159 +4,314 @@
 
 @section('content')
 <style>
+    /* Hero Section - Modern Enterprise Landing */
     .welcome-container {
-        max-width: 900px;
-        margin: 0 auto;
+        min-height: calc(100vh - 70px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
         padding: var(--spacing-2xl) var(--spacing-lg);
+        background: linear-gradient(135deg, #f9fafb 0%, #f0f9ff 100%);
     }
 
-    .welcome-card {
-        background: white;
-        border: 1px solid var(--gray-200);
-        border-radius: var(--radius-lg);
-        padding: var(--spacing-2xl) var(--spacing-lg);
-        text-align: center;
-        box-shadow: var(--shadow-sm);
+    .welcome-hero {
+        max-width: 1000px;
+        width: 100%;
     }
 
-    .welcome-title {
-        font-size: var(--font-size-3xl);
+    .hero-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-2xl);
+        align-items: center;
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .hero-text {
+        padding-right: var(--spacing-xl);
+    }
+
+    .hero-icon-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-icon-container {
+        position: relative;
+        width: 280px;
+        height: 280px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-icon-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--primary-light) 0%, #eff6ff 100%);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .hero-icon {
+        position: relative;
+        z-index: 2;
+        font-size: 5rem;
+        color: var(--primary);
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
         font-weight: var(--font-weight-bold);
         color: var(--gray-900);
-        margin-bottom: var(--spacing-md);
-    }
-
-    .welcome-subtitle {
-        font-size: var(--font-size-lg);
-        color: var(--gray-500);
         margin-bottom: var(--spacing-lg);
+        letter-spacing: -0.5px;
     }
 
-    .welcome-description {
-        font-size: var(--font-size-base);
+    .hero-title-highlight {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: var(--gray-600);
+        margin-bottom: var(--spacing-lg);
+        line-height: 1.7;
+    }
+
+    .hero-description {
+        font-size: var(--font-size-lg);
         color: var(--gray-600);
         margin-bottom: var(--spacing-2xl);
-        line-height: 1.6;
+        line-height: 1.8;
     }
 
     .welcome-buttons {
         display: flex;
         gap: var(--spacing-md);
-        justify-content: center;
         margin-bottom: var(--spacing-2xl);
-        flex-wrap: wrap;
     }
 
-    .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: var(--spacing-lg);
-        margin-top: var(--spacing-2xl);
-        padding-top: var(--spacing-2xl);
-        border-top: 1px solid var(--gray-200);
+    .btn-primary-enhanced {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        padding: 0.875rem 1.75rem;
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        font-weight: var(--font-weight-semibold);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-md);
+        border: none;
+        cursor: pointer;
     }
 
-    .feature-card {
-        text-align: center;
+    .btn-primary-enhanced:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        color: white;
+        text-decoration: none;
     }
 
-    .feature-icon {
-        font-size: 2rem;
+    .btn-secondary-enhanced {
+        background: white;
         color: var(--primary);
-        margin-bottom: var(--spacing-md);
+        border: 2px solid var(--primary);
+        padding: 0.75rem 1.75rem;
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        font-weight: var(--font-weight-semibold);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        transition: all 0.3s ease;
+        cursor: pointer;
     }
 
-    .feature-title {
-        font-size: var(--font-size-base);
+    .btn-secondary-enhanced:hover {
+        background: var(--primary-light);
+        transform: translateY(-2px);
+        color: var(--primary);
+        text-decoration: none;
+    }
+
+    .highlights-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-xl);
+        margin-top: var(--spacing-2xl);
+    }
+
+    .highlight-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-xl);
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+        border: 1px solid var(--gray-100);
+    }
+
+    .highlight-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-4px);
+    }
+
+    .highlight-icon {
+        font-size: 2.5rem;
+        color: var(--secondary);
+        margin-bottom: var(--spacing-md);
+        display: block;
+    }
+
+    .highlight-title {
+        font-size: var(--font-size-lg);
         font-weight: var(--font-weight-semibold);
         color: var(--gray-900);
         margin-bottom: var(--spacing-sm);
     }
 
-    .feature-description {
+    .highlight-description {
         font-size: var(--font-size-sm);
         color: var(--gray-600);
+        line-height: 1.6;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .hero-content {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-xl);
+        }
+
+        .hero-text {
+            padding-right: 0;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+        }
     }
 
     @media (max-width: 768px) {
         .welcome-container {
             padding: var(--spacing-xl) var(--spacing-md);
+            min-height: auto;
         }
 
-        .welcome-card {
-            padding: var(--spacing-xl) var(--spacing-md);
+        .hero-title {
+            font-size: 1.75rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .hero-description {
+            font-size: var(--font-size-base);
+        }
+
+        .hero-icon-container {
+            width: 200px;
+            height: 200px;
+        }
+
+        .hero-icon {
+            font-size: 3.5rem;
         }
 
         .welcome-buttons {
             flex-direction: column;
+            gap: var(--spacing-sm);
         }
 
-        .welcome-buttons a {
+        .btn-primary-enhanced,
+        .btn-secondary-enhanced {
             width: 100%;
+            justify-content: center;
+        }
+
+        .highlights-section {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
         }
     }
 </style>
 
 <div class="welcome-container">
-    <div class="welcome-card">
-        <!-- Logo/Icon -->
-        <div style="font-size: 3rem; margin-bottom: var(--spacing-lg); color: var(--primary);">
-            <i class="bi bi-boxes"></i>
+    <div class="welcome-hero">
+        <!-- Hero Section with Content and Icon -->
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Welcome to <span class="hero-title-highlight">SIMBAR</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Enterprise-Grade Inventory Management
+                </p>
+                <p class="hero-description">
+                    A modern, reliable system for managing office equipment and inventory. 
+                    Streamline borrowing requests, track returns, and maintain complete visibility 
+                    over your organization's assets with intelligent inventory management.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="welcome-buttons">
+                    @if (auth()->check())
+                        <a href="{{ route('dashboard') }}" class="btn-primary-enhanced">
+                            <i class="bi bi-speedometer2"></i> Go to Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn-primary-enhanced">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                        <a href="{{ route('register') }}" class="btn-secondary-enhanced">
+                            <i class="bi bi-person-plus"></i> Register
+                        </a>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Hero Icon -->
+            <div class="hero-icon-section">
+                <div class="hero-icon-container">
+                    <div class="hero-icon-bg"></div>
+                    <i class="hero-icon bi bi-boxes"></i>
+                </div>
+            </div>
         </div>
 
-        <!-- Title and Subtitle -->
-        <h1 class="welcome-title">SIMBAR</h1>
-        <p class="welcome-subtitle">Sistem Manajemen Inventaris Barang Kantor</p>
-        
-        <!-- Description -->
-        <p class="welcome-description">
-            A comprehensive office inventory management system designed to streamline borrowing requests, 
-            returns, and inventory tracking with secure role-based access control.
-        </p>
-
-        <!-- Action Buttons -->
-        <div class="welcome-buttons">
-            @if (auth()->check())
-                <a href="{{ route('dashboard') }}" class="btn btn-primary" style="padding: var(--spacing-md) var(--spacing-xl);">
-                    <i class="bi bi-speedometer2"></i> Go to Dashboard
-                </a>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-primary" style="padding: var(--spacing-md) var(--spacing-xl);">
-                    <i class="bi bi-box-arrow-in-right"></i> Login
-                </a>
-                <a href="{{ route('register') }}" class="btn btn-outline-primary" style="padding: var(--spacing-md) var(--spacing-xl);">
-                    <i class="bi bi-person-plus"></i> Register
-                </a>
-            @endif
-        </div>
-
-        <!-- Features Grid -->
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-lock-fill"></i>
-                </div>
-                <h6 class="feature-title">Secure</h6>
-                <p class="feature-description">
-                    Role-based access control with encrypted passwords
+        <!-- Features Highlight Section -->
+        <div class="highlights-section">
+            <div class="highlight-card">
+                <i class="highlight-icon bi bi-shield-lock"></i>
+                <h3 class="highlight-title">Secure & Protected</h3>
+                <p class="highlight-description">
+                    Role-based access control ensures only authorized personnel can manage inventory.
                 </p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-speedometer2"></i>
-                </div>
-                <h6 class="feature-title">Fast</h6>
-                <p class="feature-description">
-                    Optimized database queries and caching
+            <div class="highlight-card">
+                <i class="highlight-icon bi bi-lightning-charge"></i>
+                <h3 class="highlight-title">Fast & Responsive</h3>
+                <p class="highlight-description">
+                    Optimized interface for quick navigation and instant access to your inventory data.
                 </p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-graph-up"></i>
-                </div>
-                <h6 class="feature-title">Scalable</h6>
-                <p class="feature-description">
-                    Handles large inventories efficiently
+            <div class="highlight-card">
+                <i class="highlight-icon bi bi-graph-up"></i>
+                <h3 class="highlight-title">Comprehensive Reports</h3>
+                <p class="highlight-description">
+                    Detailed analytics and reporting tools for informed inventory decisions.
                 </p>
             </div>
         </div>

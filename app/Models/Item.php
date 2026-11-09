@@ -5,11 +5,44 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
-#[Fillable(['code', 'name', 'category_id', 'location_id', 'description', 'total_stock', 'available_stock', 'condition'])]
+#[Fillable(['code', 'name', 'category_id', 'location_id', 'description', 'image_path', 'total_stock', 'available_stock', 'condition'])]
 class Item extends Model
 {
     use HasFactory;
+
+    /**
+     * Helper method to get image URL
+     */
+    public function getImageUrl(): string
+    {
+        if ($this->image_path && \Storage::disk('public')->exists($this->image_path)) {
+            return \Storage::disk('public')->url($this->image_path);
+        }
+        return 'https://via.placeholder.com/400x300?text=' . urlencode($this->name);
+    }
+
+    /**
+     * Helper method to check if image exists
+     */
+    public function hasImage(): bool
+    {
+        return $this->image_path && \Storage::disk('public')->exists($this->image_path);
+    }
+
+    /**
+     * Helper method to delete image
+     */
+    public function deleteImage(): bool
+    {
+        if ($this->image_path && \Storage::disk('public')->exists($this->image_path)) {
+            \Storage::disk('public')->delete($this->image_path);
+            $this->update(['image_path' => null]);
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Relationships

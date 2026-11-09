@@ -1,217 +1,292 @@
 @extends('layouts.app')
 
-@section('title', 'My Loan Requests - SIMBAR')
+@section('title', 'My Loans - SIMBAR')
 
 @section('content')
 <style>
     .page-header {
-        margin-bottom: var(--spacing-2xl);
+        margin-bottom: 2rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: var(--spacing-lg);
+        gap: 1rem;
     }
 
     .page-title {
-        font-size: var(--font-size-2xl);
-        font-weight: var(--font-weight-bold);
-        color: var(--gray-900);
-        margin-bottom: var(--spacing-sm);
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
-        gap: var(--spacing-md);
+        gap: 1rem;
     }
 
     .page-subtitle {
-        font-size: var(--font-size-sm);
-        color: var(--gray-500);
+        font-size: 0.875rem;
+        color: #6b7280;
         margin: 0;
     }
 
-    .table-card {
-        border: 1px solid var(--gray-200);
-        border-radius: var(--radius-lg);
+    /* Status Pills */
+    .status-pills {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .status-pill {
+        padding: 0.25rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid #d1d5db;
+        text-decoration: none;
+        display: inline-block;
+        background: white;
+        color: #4b5563;
+        transition: all 0.2s ease;
+    }
+
+    .status-pill:hover {
+        border-color: #1e40af;
+        color: #1e40af;
+    }
+
+    .status-pill.active {
+        background: #1e40af;
+        color: white;
+        border-color: #1e40af;
+    }
+
+    /* Table Container */
+    .table-container {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
         overflow: hidden;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
     }
 
-    .table-card table {
-        border-collapse: collapse;
+    .table {
         width: 100%;
+        margin: 0;
+        border-collapse: collapse;
+        font-size: 0.875rem;
     }
 
-    .table-card thead th {
-        padding: var(--spacing-md) var(--spacing-lg);
+    .table thead {
+        background-color: #f9fafb;
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .table th {
+        padding: 1rem;
         text-align: left;
-        font-size: var(--font-size-sm);
-        font-weight: var(--font-weight-semibold);
-        color: var(--gray-700);
-        background-color: var(--gray-50);
-        border-bottom: 1px solid var(--gray-200);
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 
-    .table-card tbody td {
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-bottom: 1px solid var(--gray-200);
-        font-size: var(--font-size-sm);
+    .table td {
+        padding: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+        color: #374151;
     }
 
-    .table-card tbody tr:hover {
-        background-color: var(--gray-50);
+    .table tbody tr:hover {
+        background-color: #f9fafb;
     }
 
-    .table-card tbody tr:last-child td {
+    .table tbody tr:last-child td {
         border-bottom: none;
     }
 
+    .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .badge-warning {
+        background-color: #fef3c7;
+        color: #92400e;
+    }
+
+    .badge-info {
+        background-color: #d1e7f7;
+        color: #1e3a8a;
+    }
+
+    .badge-danger {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    .badge-primary {
+        background-color: #dbeafe;
+        color: #1e40af;
+    }
+
+    .badge-success {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    /* Empty State */
     .empty-state {
         text-align: center;
-        padding: var(--spacing-2xl) var(--spacing-lg);
-        background-color: var(--gray-50);
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--gray-200);
+        padding: 3rem 1rem;
+        background: #f9fafb;
     }
 
     .empty-state-icon {
-        font-size: 3rem;
-        color: var(--gray-300);
-        margin-bottom: var(--spacing-md);
+        font-size: 3.5rem;
+        color: #d1d5db;
+        margin-bottom: 1rem;
     }
 
     .empty-state-text {
-        color: var(--gray-500);
-        margin-bottom: var(--spacing-md);
-    }
-
-    @media (max-width: 768px) {
-        .page-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
+        font-size: 1rem;
+        color: #6b7280;
+        margin-bottom: 1rem;
     }
 </style>
 
-<div style="max-width: 1400px; margin: 0 auto; padding: 0 var(--spacing-lg);">
+<div style="max-width: 1400px; margin: 0 auto; padding: 1rem;">
     <!-- Page Header -->
     <div class="page-header">
         <div>
             <div class="page-title">
                 <i class="bi bi-clock-history"></i>
-                My Loan Requests
+                My Loans
             </div>
             <p class="page-subtitle">View and manage your loan requests</p>
         </div>
-        <a href="{{ route('staff.loans.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> New Loan Request
+        <a href="{{ route('staff.loans.create') }}" class="btn btn-primary" style="background-color: #1e40af; color: white; border: none; padding: 0.5rem 1rem; text-decoration: none; border-radius: 0.375rem;">
+            <i class="bi bi-plus-circle"></i> New Request
         </a>
     </div>
 
-    <!-- Filter Card -->
-    <div class="card" style="margin-bottom: var(--spacing-lg);">
-        <div class="card-body">
-            <form method="GET" action="{{ route('staff.loans.index') }}" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: var(--spacing-md); align-items: end;">
-                <div>
-                    <label for="status" class="form-label" style="margin-bottom: var(--spacing-xs); font-size: var(--font-size-sm); color: var(--gray-700);">Filter by Status</label>
-                    <select class="form-select" id="status" name="status">
-                        <option value="">-- All Status --</option>
-                        @foreach ($statuses as $statusKey => $statusLabel)
-                            <option value="{{ $statusKey }}" @if (request('status') == $statusKey) selected @endif>
-                                {{ $statusLabel }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        <i class="bi bi-filter"></i> Apply Filter
-                    </button>
-                </div>
-
-                @if (request('status'))
-                    <div>
-                        <a href="{{ route('staff.loans.index') }}" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-clockwise"></i> Clear
-                        </a>
-                    </div>
-                @endif
-            </form>
-        </div>
+    <!-- Status Filter Pills -->
+    <div class="status-pills">
+        <a href="{{ route('staff.loans.index') }}" class="status-pill {{ !request('status') ? 'active' : '' }}">
+            <i class="bi bi-list"></i> All
+        </a>
+        @if(isset($statuses))
+            @foreach ($statuses as $statusKey => $statusLabel)
+                <a href="{{ route('staff.loans.index', ['status' => $statusKey]) }}" class="status-pill {{ request('status') == $statusKey ? 'active' : '' }}">
+                    {{ $statusLabel }}
+                </a>
+            @endforeach
+        @endif
     </div>
 
     <!-- Loan Requests Table -->
-    @if ($loans->count() > 0)
-        <div class="table-card" style="margin-bottom: var(--spacing-lg);">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Requested Date</th>
-                        <th>Items</th>
-                        <th>Quantity</th>
-                        <th>Purpose</th>
-                        <th>Return Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($loans as $loan)
+    @if(isset($loans) && $loans->count() > 0)
+        <div class="table-container">
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td style="color: var(--gray-600);">
-                                {{ $loan->requested_at->format('d M Y H:i') }}
-                            </td>
-                            <td style="color: var(--gray-600);">
-                                {{ $loan->getTotalItemsCount() }}
-                            </td>
-                            <td style="color: var(--gray-600);">
-                                {{ $loan->getTotalQuantity() }} units
-                            </td>
-                            <td style="color: var(--gray-600); max-width: 200px;">
-                                <div style="overflow: hidden; text-overflow: ellipsis;">
-                                    {{ $loan->purpose ?? '-' }}
-                                </div>
-                            </td>
-                            <td style="color: var(--gray-600);">
-                                @php
-                                    $returnDate = $loan->getEarliestReturnDate();
-                                @endphp
-                                @if ($returnDate)
-                                    {{ $returnDate->format('d M Y') }}
-                                    @if ($loan->isOverdue())
-                                        <span class="badge badge-danger" style="margin-left: var(--spacing-sm);">Overdue</span>
-                                    @endif
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                <span class="badge badge-{{ $loan->status === 'Menunggu Persetujuan' ? 'warning' : ($loan->status === 'Disetujui' ? 'info' : ($loan->status === 'Ditolak' ? 'danger' : ($loan->status === 'Dipinjam' ? 'primary' : 'success'))) }}">
-                                    {{ $statuses[$loan->status] ?? $loan->status }}
-                                </span>
-                            </td>
-                            <td>
-                                <a href="{{ route('staff.loans.show', $loan) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-eye"></i> View
-                                </a>
-                            </td>
+                            <th>Requested</th>
+                            <th style="text-align: center;">Items</th>
+                            <th style="text-align: center;">Qty</th>
+                            <th>Purpose</th>
+                            <th>Return Date</th>
+                            <th>Status</th>
+                            <th style="text-align: center;">Action</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($loans as $loan)
+                            <tr>
+                                <td>
+                                    <div style="font-weight: 500;">{{ $loan->requested_at ? $loan->requested_at->format('d M Y') : '—' }}</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">{{ $loan->requested_at ? $loan->requested_at->format('H:i') : '—' }}</div>
+                                </td>
+                                <td style="text-align: center;">
+                                    <span style="display: inline-block; background: #dbeafe; color: #1e40af; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">
+                                        {{ $loan->getTotalItemsCount() }}
+                                    </span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <span style="display: inline-block; background: #f3f4f6; color: #374151; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-weight: 500;">
+                                        {{ $loan->getTotalQuantity() }} unit{{ $loan->getTotalQuantity() !== 1 ? 's' : '' }}
+                                    </span>
+                                </td>
+                                <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #6b7280;">
+                                    {{ $loan->purpose ?? 'Purpose not specified' }}
+                                </td>
+                                <td>
+                                    @php
+                                        $returnDate = $loan->getEarliestReturnDate();
+                                    @endphp
+                                    @if ($returnDate)
+                                        {{ $returnDate->format('d M Y') }}
+                                        @if ($loan->isOverdue())
+                                            <span style="display: inline-block; background: #fee2e2; color: #991b1b; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; margin-left: 0.5rem;">
+                                                <i class="bi bi-exclamation-circle"></i> Overdue
+                                            </span>
+                                        @endif
+                                    @else
+                                        <span style="color: #d1d5db;">—</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @php
+                                        $statusColors = [
+                                            'Pending Approval' => 'warning',
+                                            'Approved' => 'info',
+                                            'Rejected' => 'danger',
+                                            'Borrowed' => 'primary',
+                                            'Returned' => 'success',
+                                        ];
+                                    @endphp
+                                    <span class="badge badge-{{ $statusColors[$loan->status] ?? 'secondary' }}">
+                                        {{ $statuses[$loan->status] ?? $loan->status }}
+                                    </span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="{{ route('staff.loans.show', $loan) }}" class="btn btn-sm" style="background-color: white; color: #1e40af; border: 1px solid #1e40af; padding: 0.25rem 0.75rem; text-decoration: none; border-radius: 0.25rem; font-size: 0.875rem;">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Pagination -->
-        <div style="display: flex; justify-content: center; margin-top: var(--spacing-2xl);">
+        <div style="display: flex; justify-content: center; margin-top: 2rem;">
             {{ $loans->links() }}
         </div>
     @else
-        <div class="empty-state">
-            <div class="empty-state-icon">
-                <i class="bi bi-inbox"></i>
+        <div class="table-container">
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="bi bi-inbox"></i>
+                </div>
+                <div class="empty-state-text">
+                    @if (request('status'))
+                        No loan requests with this status.
+                    @else
+                        You have not submitted any loan requests yet.
+                    @endif
+                </div>
+                <a href="{{ route('staff.loans.create') }}" class="btn btn-primary" style="background-color: #1e40af; color: white; border: none; padding: 0.5rem 1rem; text-decoration: none; border-radius: 0.375rem;">
+                    <i class="bi bi-plus-circle"></i> Create First Request
+                </a>
             </div>
-            <div class="empty-state-text">You haven't submitted any loan requests yet.</div>
-            <a href="{{ route('staff.loans.create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Create First Loan Request
-            </a>
         </div>
     @endif
 </div>

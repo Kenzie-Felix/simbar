@@ -82,6 +82,102 @@
         color: var(--gray-500);
         margin-bottom: var(--spacing-md);
     }
+
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+        }
+
+        .page-title {
+            font-size: var(--font-size-lg);
+        }
+
+        /* Convert table to cards on mobile */
+        .table-card table thead {
+            display: none;
+        }
+
+        .table-card table tbody,
+        .table-card table tr,
+        .table-card table td {
+            display: block;
+            width: 100%;
+        }
+
+        .table-card table tr {
+            margin-bottom: var(--spacing-lg);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-card table td {
+            padding: var(--spacing-md) !important;
+            padding-left: 40% !important;
+            position: relative;
+            border: none;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: var(--font-size-sm);
+        }
+
+        .table-card table td:last-child {
+            border-bottom: none;
+        }
+
+        .table-card table td:before {
+            content: attr(data-label);
+            position: absolute;
+            left: var(--spacing-md);
+            top: var(--spacing-md);
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-xs);
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        form {
+            grid-template-columns: 1fr !important;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        .card {
+            border-radius: var(--radius-md);
+        }
+
+        .card-body {
+            padding: var(--spacing-md);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title {
+            font-size: var(--font-size-base);
+            gap: var(--spacing-sm);
+        }
+
+        .page-subtitle {
+            font-size: var(--font-size-xs);
+        }
+
+        .table-card table td {
+            font-size: var(--font-size-xs);
+        }
+
+        .table-card table td:before {
+            font-size: var(--font-size-2xs);
+        }
+
+        .badge {
+            font-size: var(--font-size-2xs);
+        }
+    }
 </style>
 
 <div style="max-width: 1400px; margin: 0 auto; padding: 0 var(--spacing-lg);">
@@ -142,17 +238,17 @@
                 <tbody>
                     @foreach ($returns as $return)
                         <tr>
-                            <td style="font-weight: var(--font-weight-semibold); color: var(--primary);">#{{ $return->id }}</td>
-                            <td>{{ $return->getReturnedItemsCount() }}</td>
-                            <td>{{ $return->getTotalReturnedQuantity() }} units</td>
-                            <td>{{ $return->submitted_at->format('d M Y H:i') }}</td>
-                            <td>
+                            <td data-label="Return ID" style="font-weight: var(--font-weight-semibold); color: var(--primary);">#{{ $return->id }}</td>
+                            <td data-label="Items">{{ $return->getReturnedItemsCount() }}</td>
+                            <td data-label="Quantity">{{ $return->getTotalReturnedQuantity() }} units</td>
+                            <td data-label="Submitted">{{ $return->submitted_at->format('d M Y H:i') }}</td>
+                            <td data-label="Status">
                                 <span class="badge badge-{{ $return->status === 'Menunggu Verifikasi' ? 'warning' : ($return->status === 'Terima' ? 'success' : 'danger') }}">
                                     {{ $statuses[$return->status] ?? $return->status }}
                                 </span>
                             </td>
-                            <td>{{ $return->verifier?->name ?? '-' }}</td>
-                            <td>
+                            <td data-label="Verified By">{{ $return->verifier?->name ?? '-' }}</td>
+                            <td data-label="Action">
                                 <a href="{{ route('staff.returns.show', $return) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-eye"></i> View
                                 </a>

@@ -89,6 +89,11 @@
         margin-bottom: var(--spacing-2xl);
     }
 
+    /* Hide Stock Movement card */
+    .quick-access-btn[href*="stock-movement"] {
+        display: none;
+    }
+
     .quick-access-btn {
         display: flex;
         flex-direction: column;

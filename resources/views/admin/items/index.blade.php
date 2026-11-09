@@ -48,6 +48,15 @@
         font-size: var(--font-size-sm);
     }
 
+    .item-thumbnail {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        object-fit: cover;
+        background: var(--gray-100);
+        border: 1px solid var(--gray-200);
+    }
+
     .items-table tbody tr:hover {
         background-color: var(--gray-50);
     }
@@ -83,6 +92,65 @@
 
         .action-buttons {
             flex-wrap: wrap;
+        }
+
+        /* Convert table to cards on mobile */
+        .items-table thead {
+            display: none;
+        }
+
+        .items-table tbody,
+        .items-table tr,
+        .items-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .items-table tr {
+            margin-bottom: var(--spacing-lg);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .items-table td {
+            padding: var(--spacing-md) !important;
+            padding-left: 35% !important;
+            position: relative;
+            border: none;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: var(--font-size-sm);
+        }
+
+        .items-table td:last-child {
+            border-bottom: none;
+            text-align: left !important;
+        }
+
+        .items-table td:before {
+            content: attr(data-label);
+            position: absolute;
+            left: var(--spacing-md);
+            top: var(--spacing-md);
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-xs);
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-thumbnail {
+            display: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+
+        .action-buttons form {
+            margin: 0;
         }
     }
 </style>
@@ -122,46 +190,50 @@
         <div class="card-body">
             @if ($items->count() > 0)
                 <div style="overflow-x: auto;">
-                    <table class="items-table">
+                    <table class="items-table" style="min-width: 1000px;">
                         <thead>
                             <tr>
-                                <th>Code</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Location</th>
-                                <th style="text-align: center;">Total Stock</th>
-                                <th style="text-align: center;">Available</th>
-                                <th>Condition</th>
-                                <th style="text-align: center;">Actions</th>
+                                <th style="width: 60px;"></th>
+                                <th data-label="">Code</th>
+                                <th data-label="">Name</th>
+                                <th data-label="">Category</th>
+                                <th data-label="">Location</th>
+                                <th style="text-align: center;" data-label="">Total Stock</th>
+                                <th style="text-align: center;" data-label="">Available</th>
+                                <th data-label="">Condition</th>
+                                <th style="text-align: center;" data-label="">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($items as $item)
                                 <tr>
-                                    <td>
+                                    <td data-label="">
+                                        <img src="{{ $item->getImageUrl() }}" alt="{{ $item->name }}" class="item-thumbnail">
+                                    </td>
+                                    <td data-label="Code">
                                         <small style="color: var(--gray-500);">{{ $item->code }}</small>
                                     </td>
-                                    <td>
+                                    <td data-label="Name">
                                         <strong>{{ $item->name }}</strong>
                                     </td>
-                                    <td>
+                                    <td data-label="Category">
                                         <span class="badge badge-secondary">{{ $item->category->name }}</span>
                                     </td>
-                                    <td>
+                                    <td data-label="Location">
                                         <small style="color: var(--gray-500);">{{ $item->location->name }}</small>
                                     </td>
-                                    <td style="text-align: center;">
+                                    <td style="text-align: center;" data-label="Total">
                                         <span style="font-weight: var(--font-weight-semibold);">{{ $item->total_stock }}</span>
                                     </td>
-                                    <td style="text-align: center;">
+                                    <td style="text-align: center;" data-label="Available">
                                         <span style="font-weight: var(--font-weight-bold); color: var(--primary);">{{ $item->available_stock }}</span>
                                     </td>
-                                    <td>
+                                    <td data-label="Condition">
                                         <span class="badge badge-{{ $item->getConditionBadgeColor() }}">
                                             {{ $item->condition }}
                                         </span>
                                     </td>
-                                    <td style="text-align: center;">
+                                    <td style="text-align: center;" data-label="Action">
                                         <div class="action-buttons">
                                             <a href="{{ route('admin.items.show', $item) }}" 
                                                class="btn btn-sm btn-outline-primary" title="View Details">
@@ -199,7 +271,7 @@
                         <i class="bi bi-inbox"></i>
                     </div>
                     <div class="empty-state-text">No items found</div>
-                    <p style="color: var(--gray-500); margin-bottom: var(--spacing-lg);">Create an item to get started with inventory management.</p>
+                    <p style="color: var(--gray-500); margin-bottom: var(--spacing-lg);">Create an item to start managing your inventory.</p>
                     <a href="{{ route('admin.items.create') }}" class="btn btn-primary">
                         <i class="bi bi-plus-circle"></i> Create First Item
                     </a>

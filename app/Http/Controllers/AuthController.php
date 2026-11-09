@@ -28,9 +28,9 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
         ], [
-            'email.required' => 'Email is required.',
-            'email.email' => 'Please enter a valid email address.',
-            'password.required' => 'Password is required.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Silakan masukkan alamat email yang valid.',
+            'password.required' => 'Kata sandi wajib diisi.',
         ]);
 
         // Check if user exists and is active
@@ -38,7 +38,7 @@ class AuthController extends Controller
         
         if (!$user || !$user->is_active) {
             return back()->withErrors([
-                'email' => 'These credentials do not match our records or account is inactive.',
+                'email' => 'Email atau kata sandi tidak sesuai, atau akun tidak aktif.',
             ])->onlyInput('email');
         }
 
@@ -53,7 +53,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials are incorrect.',
+            'email' => 'Email atau kata sandi yang Anda masukkan tidak benar.',
         ])->onlyInput('email');
     }
 
@@ -82,17 +82,17 @@ class AuthController extends Controller
                     ->symbols(),
             ],
         ], [
-            'name.required' => 'Full name is required.',
-            'name.max' => 'Full name may not be greater than 255 characters.',
-            'email.required' => 'Email is required.',
-            'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'This email address is already registered.',
-            'password.required' => 'Password is required.',
-            'password.confirmed' => 'The password confirmation does not match.',
-            'password.min' => 'Password must be at least 8 characters.',
-            'password.mixed_case' => 'Password must contain uppercase and lowercase letters.',
-            'password.numbers' => 'Password must contain at least one number.',
-            'password.symbols' => 'Password must contain at least one symbol.',
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'name.max' => 'Nama lengkap tidak boleh lebih dari 255 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Silakan masukkan alamat email yang valid.',
+            'email.unique' => 'Alamat email ini sudah terdaftar.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+            'password.min' => 'Kata sandi minimal harus 8 karakter.',
+            'password.mixed_case' => 'Kata sandi harus mengandung huruf besar dan kecil.',
+            'password.numbers' => 'Kata sandi harus mengandung minimal satu angka.',
+            'password.symbols' => 'Kata sandi harus mengandung minimal satu simbol.',
         ]);
 
         // Create new user (Staff by default)
@@ -106,9 +106,8 @@ class AuthController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(route('dashboard'));
+        // Redirect to login with success message
+        return redirect(route('login'))->with('success', 'Registrasi berhasil. Silakan masuk menggunakan akun yang baru saja Anda buat.');
     }
 
     /**

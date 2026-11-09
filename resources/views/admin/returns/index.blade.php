@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Return Verifications - SIMBAR')
+@section('title', 'Return Verification - SIMBAR')
 
 @section('content')
 <style>
@@ -114,7 +114,7 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-check2-circle"></i>
-                Return Verifications
+                Return Verification
             </h1>
             <p>Review and verify return requests</p>
         </div>
@@ -188,7 +188,7 @@
                                 <th>Return ID</th>
                                 <th>Staff Member</th>
                                 <th>Items</th>
-                                <th>Quantity</th>
+                                <th>Qty</th>
                                 <th>Submitted</th>
                                 <th>Status</th>
                                 <th style="text-align: center;">Action</th>
@@ -241,7 +241,7 @@
                 </div>
                 <p class="empty-state-text" style="font-size: var(--font-size-base); color: var(--gray-500);">
                     @if (request('status') || request('search'))
-                        No return requests match your filters.
+                        No return requests match your filter.
                     @else
                         No return requests to verify.
                     @endif

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inventory Reports - SIMBAR')
+@section('title', 'Laporan Inventaris - SIMBAR')
 
 @section('content')
 <style>
@@ -64,16 +64,13 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-archive"></i>
-                Inventory Reports
+                Laporan Inventaris
             </h1>
-            <p>Current stock and inventory status</p>
+            <p>Status stok dan inventaris saat ini</p>
         </div>
         <div style="display: flex; gap: var(--spacing-sm);">
-            <a href="{{ route('admin.reports.export-inventory', request()->query()) }}" class="btn btn-success">
-                <i class="bi bi-download"></i> Export CSV
-            </a>
             <a href="{{ route('admin.reports.dashboard') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> Back
+                <i class="bi bi-arrow-left"></i> Kembali
             </a>
         </div>
     </div>
@@ -83,9 +80,9 @@
         <div class="card-body">
             <form method="GET" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-md); align-items: end;">
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Category</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Kategori</label>
                     <select class="form-select" name="category_id">
-                        <option value="">-- All Categories --</option>
+                        <option value="">-- Semua Kategori --</option>
                         @foreach (\App\Models\Category::all() as $category)
                             <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                                 {{ $category->name }}
@@ -94,9 +91,9 @@
                     </select>
                 </div>
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Location</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Lokasi</label>
                     <select class="form-select" name="location_id">
-                        <option value="">-- All Locations --</option>
+                        <option value="">-- Semua Lokasi --</option>
                         @foreach (\App\Models\Location::all() as $location)
                             <option value="{{ $location->id }}" {{ request('location_id') == $location->id ? 'selected' : '' }}>
                                 {{ $location->name }}
@@ -105,16 +102,16 @@
                     </select>
                 </div>
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Stock Level</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Level Stok</label>
                     <select class="form-select" name="stock_level">
-                        <option value="">-- All Levels --</option>
-                        <option value="good" {{ request('stock_level') === 'good' ? 'selected' : '' }}>Good (> 5)</option>
-                        <option value="low" {{ request('stock_level') === 'low' ? 'selected' : '' }}>Low (1-5)</option>
-                        <option value="out" {{ request('stock_level') === 'out' ? 'selected' : '' }}>Out (0)</option>
+                        <option value="">-- Semua Level --</option>
+                        <option value="good" {{ request('stock_level') === 'good' ? 'selected' : '' }}>Baik (> 5)</option>
+                        <option value="low" {{ request('stock_level') === 'low' ? 'selected' : '' }}>Rendah (1-5)</option>
+                        <option value="out" {{ request('stock_level') === 'out' ? 'selected' : '' }}>Habis (0)</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-funnel"></i> Filter
+                    <i class="bi bi-funnel"></i> Saringan
                 </button>
             </form>
         </div>
@@ -128,13 +125,13 @@
                     <table class="items-table">
                         <thead>
                             <tr>
-                                <th>Code</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Location</th>
-                                <th style="text-align: center;">Total Stock</th>
-                                <th style="text-align: center;">Available</th>
-                                <th>Condition</th>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>Kategori</th>
+                                <th>Lokasi</th>
+                                <th style="text-align: center;">Total Stok</th>
+                                <th style="text-align: center;">Tersedia</th>
+                                <th>Kondisi</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -166,11 +163,11 @@
                                     </td>
                                     <td>
                                         @if ($item->available_stock === 0)
-                                            <span class="badge badge-danger">Out of Stock</span>
+                                            <span class="badge badge-danger">Habis Stok</span>
                                         @elseif ($item->available_stock <= 5)
-                                            <span class="badge badge-warning">Low Stock</span>
+                                            <span class="badge badge-warning">Stok Rendah</span>
                                         @else
-                                            <span class="badge badge-success">Good</span>
+                                            <span class="badge badge-success">Baik</span>
                                         @endif
                                     </td>
                                 </tr>
@@ -194,7 +191,7 @@
                     <i class="bi bi-inbox" style="font-size: 3rem; color: var(--gray-400);"></i>
                 </div>
                 <p class="empty-state-text" style="font-size: var(--font-size-base); color: var(--gray-500);">
-                    No inventory items found
+                    Tidak ada item inventaris yang ditemukan
                 </p>
             </div>
         </div>

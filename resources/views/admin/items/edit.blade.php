@@ -110,6 +110,79 @@
         .page-header {
             flex-direction: column;
         }
+
+        .form-card {
+            padding: var(--spacing-lg);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .form-container {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .form-card {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+        }
+
+        .page-header {
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .page-header-content h1 {
+            font-size: var(--font-size-lg);
+        }
+
+        .info-card {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .info-card h6 {
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stock-summary {
+            padding: var(--spacing-md);
+        }
+
+        .stock-summary h6 {
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-sm);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .stock-summary p {
+            font-size: var(--font-size-xs);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-header-content h1 {
+            font-size: var(--font-size-base);
+            gap: var(--spacing-sm);
+        }
+
+        .page-header-content p {
+            font-size: var(--font-size-xs);
+        }
+
+        .form-card {
+            padding: var(--spacing-md);
+        }
+
+        .info-card h6 {
+            font-size: var(--font-size-xs);
+        }
+
+        .info-item {
+            font-size: var(--font-size-xs);
+            margin-bottom: var(--spacing-xs);
+        }
     }
 </style>
 
@@ -129,7 +202,7 @@
     <div class="form-container">
         <!-- Form -->
         <div class="form-card">
-            <form method="POST" action="{{ route('admin.items.update', $item) }}">
+            <form method="POST" action="{{ route('admin.items.update', $item) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 @include('admin.items.form', ['item' => $item, 'categories' => $categories, 'locations' => $locations])

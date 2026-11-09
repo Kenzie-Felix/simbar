@@ -11,8 +11,6 @@ class StockMovement extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-
     /**
      * Relationships
      */

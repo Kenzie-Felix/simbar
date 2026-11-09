@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Reject Loan Request - SIMBAR')
+@section('title', 'Tolak Permintaan Peminjaman - SIMBAR')
 
 @section('content')
 <style>
@@ -200,12 +200,12 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-x-circle"></i>
-                Reject Loan Request
+                Tolak Permintaan Peminjaman
             </h1>
-            <p>Provide a reason for rejecting this loan request</p>
+            <p>Berikan alasan untuk menolak permintaan peminjaman ini</p>
         </div>
         <a href="{{ route('admin.loans.show', $loan) }}" class="btn btn-secondary">
-            <i class="bi bi-arrow-left"></i> Back
+            <i class="bi bi-arrow-left"></i> Kembali
         </a>
     </div>
 
@@ -215,25 +215,25 @@
         <div>
             <!-- Request Summary -->
             <div class="summary-card">
-                <h5>Loan Request #{{ $loan->id }}</h5>
+                <h5>Permintaan Peminjaman #{{ $loan->id }}</h5>
                 <div class="summary-item">
-                    <div class="summary-label">Staff Member</div>
+                    <div class="summary-label">Anggota Staf</div>
                     <div class="summary-value">{{ $loan->user->name }}</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-label">Requested Date</div>
+                    <div class="summary-label">Tanggal Diminta</div>
                     <div class="summary-value">{{ $loan->requested_at->format('d M Y H:i') }}</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-label">Items Requested</div>
-                    <div class="summary-value">{{ $loan->getTotalItemsCount() }} items ({{ $loan->getTotalQuantity() }} units)</div>
+                    <div class="summary-label">Barang yang Diminta</div>
+                    <div class="summary-value">{{ $loan->getTotalItemsCount() }} barang ({{ $loan->getTotalQuantity() }} unit)</div>
                 </div>
             </div>
 
             <!-- Rejection Form -->
             <div class="form-card">
                 <h5 style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--gray-900); margin-bottom: var(--spacing-lg); padding-bottom: var(--spacing-lg); border-bottom: 1px solid var(--gray-200);">
-                    <i class="bi bi-chat-left-text"></i> Rejection Reason
+                    <i class="bi bi-chat-left-text"></i> Alasan untuk Penolakan
                 </h5>
 
                 <form action="{{ route('admin.loans.reject', $loan) }}" method="POST">
@@ -242,18 +242,18 @@
                     <!-- Rejection Reason -->
                     <div class="form-group">
                         <label for="rejection_reason" class="form-label">
-                            Reason for Rejection <span class="required">*</span>
+                            Alasan untuk Penolakan <span class="required">*</span>
                         </label>
                         <textarea 
                             class="form-control @error('rejection_reason') is-invalid @enderror" 
                             id="rejection_reason" 
                             name="rejection_reason" 
                             rows="5" 
-                            placeholder="Explain why this loan request is being rejected..."
+                            placeholder="Jelaskan mengapa Anda menolak pinjaman ini..."
                             maxlength="500"
                             required
                         >{{ old('rejection_reason') }}</textarea>
-                        <div class="form-help">Maximum 500 characters</div>
+                        <div class="form-help">Maksimal 500 karakter</div>
                         @error('rejection_reason')
                             <div style="color: var(--danger); font-size: var(--font-size-xs); margin-top: var(--spacing-xs);">{{ $message }}</div>
                         @enderror
@@ -261,22 +261,22 @@
 
                     <!-- Quick Reasons -->
                     <div class="form-group">
-                        <label class="form-label">Quick Reasons:</label>
+                        <label class="form-label">Alasan Cepat:</label>
                         <div class="quick-reasons">
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Insufficient stock available at this time. Please resubmit when stock is available.')">
-                                Insufficient Stock
+                            <button type="button" class="quick-reason-btn" onclick="setReason('Stok tidak cukup saat ini. Silakan kirim kembali ketika stok tersedia.')">
+                                Stok Tidak Cukup
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Item condition is not suitable for borrowing.')">
-                                Item Condition Issue
+                            <button type="button" class="quick-reason-btn" onclick="setReason('Kondisi barang tidak sesuai untuk dipinjam.')">
+                                Masalah Kondisi Barang
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Staff member has outstanding return items that must be verified first.')">
-                                Pending Returns
+                            <button type="button" class="quick-reason-btn" onclick="setReason('Anggota staf memiliki barang kembalian yang harus diverifikasi terlebih dahulu.')">
+                                Pengembalian Tertunda
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Requested items are reserved for other purposes.')">
-                                Items Reserved
+                            <button type="button" class="quick-reason-btn" onclick="setReason('Barang yang diminta telah dipesan untuk tujuan lain.')">
+                                Barang Dipesan
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Purpose of loan does not align with inventory policies.')">
-                                Policy Violation
+                            <button type="button" class="quick-reason-btn" onclick="setReason('Tujuan peminjaman tidak sesuai dengan kebijakan inventaris.')">
+                                Pelanggaran Kebijakan
                             </button>
                         </div>
                     </div>
@@ -285,17 +285,17 @@
                     <div class="alert alert-info">
                         <i class="bi bi-info-circle alert-icon"></i>
                         <div>
-                            <strong>Note:</strong> The staff member will be notified of the rejection with the reason provided. No stock will be affected.
+                            <strong>Catatan:</strong> Anggota staf akan diberitahu tentang penolakan dengan alasan yang diberikan. Stok tidak akan terpengaruh.
                         </div>
                     </div>
 
                     <!-- Action Buttons -->
                     <div class="action-buttons">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to reject this loan request? The staff member will be notified.')">
-                            <i class="bi bi-x-circle"></i> Confirm Rejection
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menolak permintaan peminjaman ini? Anggota staf akan diberitahu.')">
+                            <i class="bi bi-x-circle"></i> Konfirmasi Penolakan
                         </button>
                         <a href="{{ route('admin.loans.show', $loan) }}" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left"></i> Cancel
+                            <i class="bi bi-arrow-left"></i> Batal
                         </a>
                     </div>
                 </form>
@@ -306,24 +306,24 @@
         <div>
             <!-- Rejection Guidelines -->
             <div class="sidebar-card">
-                <h6>Rejection Guidelines</h6>
+                <h6>Panduan Penolakan</h6>
                 <ul>
-                    <li><strong>Be Clear:</strong> Explain why the request cannot be approved.</li>
-                    <li><strong>Be Helpful:</strong> Suggest actions (e.g., "resubmit when stock available").</li>
-                    <li><strong>Be Professional:</strong> Use courteous language.</li>
-                    <li><strong>Notify Staff:</strong> The reason will be visible to the staff member.</li>
-                    <li><strong>No Stock Impact:</strong> Rejecting doesn't affect inventory.</li>
+                    <li><strong>Jelaskan:</strong> Jelaskan mengapa permintaan tidak dapat disetujui.</li>
+                    <li><strong>Membantu:</strong> Sarankan tindakan (misalnya, "kirim kembali ketika stok tersedia").</li>
+                    <li><strong>Profesional:</strong> Gunakan bahasa yang sopan.</li>
+                    <li><strong>Beri Tahu Staf:</strong> Alasan akan terlihat oleh anggota staf.</li>
+                    <li><strong>Tidak Ada Dampak Stok:</strong> Penolakan tidak mempengaruhi inventaris.</li>
                 </ul>
             </div>
 
             <!-- Items in Request -->
             <div class="sidebar-card">
-                <h6>Items in Request</h6>
+                <h6>Barang dalam Permintaan</h6>
                 @foreach ($loan->loanItems as $item)
                     <div style="margin-bottom: var(--spacing-md); font-size: var(--font-size-xs); color: var(--gray-600);">
                         <strong style="color: var(--gray-900); display: block;">{{ $item->item->name }}</strong>
                         <span style="color: var(--gray-500);">{{ $item->item->code }}</span><br>
-                        <span>Qty: <strong style="color: var(--gray-900);">{{ $item->quantity }}</strong> | Available: <strong style="color: var(--primary);">{{ $item->item->available_stock }}</strong></span>
+                        <span>Jml: <strong style="color: var(--gray-900);">{{ $item->quantity }}</strong> | Tersedia: <strong style="color: var(--primary);">{{ $item->item->available_stock }}</strong></span>
                     </div>
                 @endforeach
             </div>

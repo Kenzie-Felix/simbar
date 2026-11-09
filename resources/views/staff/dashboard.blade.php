@@ -5,86 +5,154 @@
 @section('content')
 <style>
     .page-header {
-        margin-bottom: var(--spacing-2xl);
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid #f3f4f6;
     }
 
     .page-title {
-        font-size: var(--font-size-2xl);
-        font-weight: var(--font-weight-bold);
-        color: var(--gray-900);
-        margin-bottom: var(--spacing-sm);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
-        gap: var(--spacing-md);
+        gap: 1rem;
+    }
+
+    .page-title i {
+        font-size: 1.8rem;
+        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     .page-subtitle {
-        font-size: var(--font-size-sm);
-        color: var(--gray-500);
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
     }
 
     .stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: var(--spacing-lg);
-        margin-bottom: var(--spacing-2xl);
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 3rem;
     }
 
     .stat-card {
+        position: relative;
+        overflow: hidden;
         background: white;
-        border: 1px solid var(--gray-200);
-        border-radius: var(--radius-lg);
-        padding: var(--spacing-lg);
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        transition: all 0.2s ease;
-    }
-
-    .stat-card:hover {
-        box-shadow: var(--shadow-md);
-        transform: translateY(-2px);
-        border-color: var(--primary);
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
     }
 
     .stat-content {
         flex: 1;
+        z-index: 2;
+        position: relative;
     }
 
     .stat-label {
-        font-size: var(--font-size-sm);
-        color: var(--gray-500);
-        margin-bottom: var(--spacing-xs);
-        font-weight: var(--font-weight-medium);
+        font-size: 0.875rem;
+        color: #4b5563;
+        margin-bottom: 0.25rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 
     .stat-value {
-        font-size: var(--font-size-2xl);
-        font-weight: var(--font-weight-bold);
-        color: var(--gray-900);
+        font-size: 2rem;
+        font-weight: 700;
+        color: #111827;
     }
 
     .stat-icon {
         font-size: 2rem;
-        opacity: 0.1;
+        opacity: 0.08;
         color: currentColor;
+        position: absolute;
+        bottom: 1.5rem;
+        right: 1.5rem;
     }
 
-    .stat-card.primary { color: var(--primary); }
-    .stat-card.success { color: var(--success); }
-    .stat-card.warning { color: var(--warning); }
-    .stat-card.info { color: var(--info); }
+    .stat-card.primary { color: #1e3a8a; }
+    .stat-card.success { color: #10b981; }
+    .stat-card.warning { color: #f59e0b; }
+    .stat-card.info { color: #0ea5e9; }
 
     .action-buttons {
         display: flex;
-        gap: var(--spacing-md);
-        margin-bottom: var(--spacing-2xl);
+        gap: 1rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
     }
 
     .action-buttons a {
         display: inline-flex;
         align-items: center;
-        gap: var(--spacing-sm);
+        gap: 0.5rem;
+        flex: 1;
+        min-width: 200px;
+        justify-content: center;
+        padding: 0.875rem 1rem;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        text-decoration: none;
+        color: #111827;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        font-size: 0.875rem;
+    }
+
+    .action-buttons a:hover {
+        border-color: #1e40af;
+        background: #f0f9ff;
+        color: #1e40af;
+    }
+
+    /* Primary Button Style */
+    .action-buttons .btn-primary {
+        background: #1e40af;
+        color: white;
+        border-color: #1e40af;
+    }
+
+    .action-buttons .btn-primary:hover {
+        background: #1e3a8a;
+        border-color: #1e3a8a;
+        color: white;
+    }
+
+    /* Success Button Style */
+    .action-buttons .btn-success {
+        background: #10b981;
+        color: white;
+        border-color: #10b981;
+    }
+
+    .action-buttons .btn-success:hover {
+        background: #059669;
+        border-color: #059669;
+        color: white;
+    }
+
+    /* Info Button Style */
+    .action-buttons .btn-info {
+        background: #0ea5e9;
+        color: white;
+        border-color: #0ea5e9;
+    }
+
+    .action-buttons .btn-info:hover {
+        background: #0284c7;
+        border-color: #0284c7;
+        color: white;
     }
 
     .loans-table {
@@ -93,23 +161,30 @@
     }
 
     .loans-table thead th {
-        padding: var(--spacing-md) var(--spacing-lg);
+        padding: 1rem;
         text-align: left;
-        font-size: var(--font-size-sm);
-        font-weight: var(--font-weight-semibold);
-        color: var(--gray-700);
-        background-color: var(--gray-50);
-        border-bottom: 1px solid var(--gray-200);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #374151;
+        background: linear-gradient(135deg, #f9fafb 0%, white 100%);
+        border-bottom: 2px solid #e5e7eb;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 
     .loans-table tbody td {
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-bottom: 1px solid var(--gray-200);
-        font-size: var(--font-size-sm);
+        padding: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 0.875rem;
+        color: #374151;
+    }
+
+    .loans-table tbody tr {
+        transition: all 0.2s ease;
     }
 
     .loans-table tbody tr:hover {
-        background-color: var(--gray-50);
+        background-color: #f0f9ff;
     }
 
     .loans-table tbody tr:last-child td {
@@ -118,7 +193,89 @@
 
     .action-cell {
         display: flex;
-        gap: var(--spacing-sm);
+        gap: 0.5rem;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .badge-danger {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .badge-warning {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .badge-success {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        margin-bottom: 3rem;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background: #f9fafb;
+        padding: 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        background: #f9fafb;
+    }
+
+    .empty-state-icon {
+        font-size: 3.5rem;
+        color: #d1d5db;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state-text {
+        font-size: 1rem;
+        color: #6b7280;
+        margin-bottom: 1rem;
+    }
+
+    .alert {
+        padding: 1rem;
+        border-radius: 0.375rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .alert-success {
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #86efac;
+    }
+
+    .alert-danger {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+    }
+
+    .alert-icon {
+        font-size: 1.25rem;
+        margin-right: 0.75rem;
     }
 
     @media (max-width: 768px) {
@@ -126,21 +283,16 @@
             grid-template-columns: 1fr;
         }
 
-        .stat-card {
-            flex-direction: column;
-        }
-
-        .stat-icon {
-            align-self: flex-end;
-            margin-top: var(--spacing-md);
-        }
-
         .action-buttons {
             flex-direction: column;
         }
 
         .action-buttons a {
-            justify-content: center;
+            min-width: auto;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
         }
     }
 </style>
@@ -150,15 +302,15 @@
     <div class="page-header">
         <div class="page-title">
             <i class="bi bi-speedometer2"></i>
-            My Dashboard
+            Dashboard
         </div>
-        <p class="page-subtitle">Welcome, {{ auth()->user()->name }}</p>
+        <p class="page-subtitle">Welcome back, <strong>{{ auth()->user()->name }}</strong> • {{ auth()->user()->role }}</p>
     </div>
 
     <!-- Alerts -->
     @if (session('success'))
         <div class="alert alert-success">
-            <i class="bi bi-check-circle alert-icon"></i>
+            <i class="bi bi-check-circle-fill alert-icon"></i>
             <div>
                 <strong>Success</strong><br>
                 {{ session('success') }}
@@ -168,7 +320,7 @@
 
     @if (session('error'))
         <div class="alert alert-danger">
-            <i class="bi bi-exclamation-circle alert-icon"></i>
+            <i class="bi bi-exclamation-circle-fill alert-icon"></i>
             <div>
                 <strong>Error</strong><br>
                 {{ session('error') }}
@@ -194,6 +346,9 @@
             <div class="stat-content">
                 <div class="stat-label">Overdue Loans</div>
                 <div class="stat-value">{{ $overdueLoanCount }}</div>
+                @if ($overdueLoanCount > 0)
+                    <small style="color: #f59e0b; margin-top: 1rem; display: block;">⚠️ Please return these items</small>
+                @endif
             </div>
             <div class="stat-icon">
                 <i class="bi bi-exclamation-triangle"></i>
@@ -214,8 +369,9 @@
         <!-- Total Borrowed -->
         <div class="stat-card success">
             <div class="stat-content">
-                <div class="stat-label">Total Borrowed (All Time)</div>
+                <div class="stat-label">Total Borrowed</div>
                 <div class="stat-value">{{ $totalBorrowedCount }}</div>
+                <small style="color: #6b7280; margin-top: 1rem; display: block;">All loans</small>
             </div>
             <div class="stat-icon">
                 <i class="bi bi-box-seam"></i>
@@ -226,20 +382,23 @@
     <!-- Quick Action Buttons -->
     <div class="action-buttons">
         <a href="{{ route('staff.items.index') }}" class="btn btn-primary">
-            <i class="bi bi-search"></i> Browse Items
+            <i class="bi bi-search"></i> View Items
         </a>
         <a href="{{ route('staff.loans.create') }}" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Request New Loan
+            <i class="bi bi-plus-circle"></i> Request Loan
         </a>
         <a href="{{ route('staff.returns.create') }}" class="btn btn-info">
-            <i class="bi bi-box-arrow-down"></i> Request Return
+            <i class="bi bi-box-arrow-down"></i> Return Item
+        </a>
+        <a href="{{ route('staff.loans.index') }}" style="background: white; color: #1e40af; border: 1px solid #1e40af;">
+            <i class="bi bi-clock-history"></i> My Loans
         </a>
     </div>
 
     <!-- Active Loans Section -->
     <div class="card">
         <div class="card-header">
-            <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md);">
+            <h5 style="margin: 0; display: flex; align-items: center; gap: 1rem; font-size: 1.125rem;">
                 <i class="bi bi-clipboard-check"></i>
                 Active Loans
             </h5>
@@ -250,11 +409,11 @@
                     <table class="loans-table">
                         <thead>
                             <tr>
-                                <th>Item</th>
-                                <th>Quantity</th>
-                                <th>Due Date</th>
+                                <th>Item Name</th>
+                                <th>Qty</th>
+                                <th>Return Date</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -262,31 +421,33 @@
                                 @foreach ($loan->loanItems as $item)
                                     <tr>
                                         <td>
-                                            <strong>{{ $item->item->name }}</strong><br>
-                                            <small style="color: var(--gray-500);">{{ $item->item->category->name }}</small>
+                                            <strong style="color: #111827;">{{ $item->item->name }}</strong><br>
+                                            <small style="color: #6b7280;">{{ $item->item->code }} • {{ $item->item->category->name }}</small>
                                         </td>
                                         <td>
-                                            <span style="font-weight: var(--font-weight-semibold);">{{ $item->quantity }}</span>
+                                            <span style="font-weight: 600; font-size: 1.1rem;">{{ $item->quantity }}</span>
                                         </td>
                                         <td>
-                                            <div>{{ $item->planned_return_at->format('M d, Y') }}</div>
-                                            <div>
+                                            <div style="color: #374151; font-weight: 500;">{{ $item->planned_return_at->format('M d, Y') }}</div>
+                                            <div style="margin-top: 0.25rem;">
                                                 @if ($item->isOverdue())
                                                     <span class="badge badge-danger">OVERDUE</span>
                                                 @elseif ($item->daysUntilDue() <= 3)
                                                     <span class="badge badge-warning">DUE SOON</span>
+                                                @else
+                                                    <span class="badge badge-success">On Time</span>
                                                 @endif
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="badge badge-info">Borrowed</span>
+                                            <span style="display: inline-block; background: #cfe2ff; color: #084298; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Borrowed</span>
                                         </td>
                                         <td>
                                             <div class="action-cell">
-                                                <a href="{{ route('staff.loans.show', $loan) }}" class="btn btn-sm btn-outline-primary" title="View Details">
-                                                    <i class="bi bi-eye"></i>
+                                <a href="{{ route('staff.loans.index') }}" style="background: white; color: #1e40af; border: 1px solid #1e40af; padding: 0.25rem 0.75rem; text-decoration: none; border-radius: 0.25rem; font-size: 0.875rem;">
+                                                    <i class="bi bi-eye"></i> View
                                                 </a>
-                                                <a href="{{ route('staff.returns.create', ['loan_id' => $loan->id]) }}" class="btn btn-sm btn-outline-success" title="Request Return">
+                                                <a href="{{ route('staff.returns.create', ['loan_id' => $loan->id]) }}" style="background: white; color: #10b981; border: 1px solid #10b981; padding: 0.25rem 0.75rem; text-decoration: none; border-radius: 0.25rem; font-size: 0.875rem;">
                                                     <i class="bi bi-box-arrow-down"></i>
                                                 </a>
                                             </div>
@@ -302,8 +463,9 @@
                     <div class="empty-state-icon">
                         <i class="bi bi-inbox"></i>
                     </div>
-                    <div class="empty-state-text">You have no active loans</div>
-                    <a href="{{ route('staff.loans.create') }}" class="btn btn-sm btn-primary" style="margin-top: var(--spacing-md);">
+                    <div class="empty-state-text">No active loans</div>
+                    <p style="color: #6b7280; margin: 1rem 0;">Start by viewing available items and requesting a loan.</p>
+                    <a href="{{ route('staff.loans.create') }}" style="display: inline-block; background: #1e40af; color: white; border: none; padding: 0.5rem 1rem; text-decoration: none; border-radius: 0.375rem; margin-top: 1rem;">
                         <i class="bi bi-plus-circle"></i> Request Your First Loan
                     </a>
                 </div>

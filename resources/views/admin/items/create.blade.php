@@ -98,6 +98,65 @@
         .page-header {
             flex-direction: column;
         }
+
+        .form-card {
+            padding: var(--spacing-lg);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .form-container {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .form-card {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+        }
+
+        .page-header {
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .page-header-content h1 {
+            font-size: var(--font-size-lg);
+        }
+
+        .info-card {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .info-divider {
+            margin: var(--spacing-md) 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-header-content h1 {
+            font-size: var(--font-size-base);
+            gap: var(--spacing-sm);
+        }
+
+        .page-header-content p {
+            font-size: var(--font-size-xs);
+        }
+
+        .form-card {
+            padding: var(--spacing-md);
+        }
+
+        .info-card h6 {
+            font-size: var(--font-size-xs);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .info-card li {
+            font-size: var(--font-size-2xs);
+            padding: var(--spacing-xs) 0;
+        }
     }
 </style>
 
@@ -117,7 +176,7 @@
     <div class="form-container">
         <!-- Form -->
         <div class="form-card">
-            <form method="POST" action="{{ route('admin.items.store') }}">
+            <form method="POST" action="{{ route('admin.items.store') }}" enctype="multipart/form-data">
                 @csrf
                 @include('admin.items.form', ['categories' => $categories, 'locations' => $locations])
             </form>

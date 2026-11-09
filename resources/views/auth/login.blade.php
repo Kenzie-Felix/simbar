@@ -105,24 +105,25 @@
     .login-button {
         width: 100%;
         padding: var(--spacing-md);
-        background-color: var(--primary);
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
         color: white;
         border: none;
         border-radius: var(--radius-md);
         font-size: var(--font-size-base);
         font-weight: var(--font-weight-medium);
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
         margin-bottom: var(--spacing-lg);
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
     }
 
     .login-button:hover {
-        background-color: var(--primary-dark);
-        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(30, 58, 138, 0.4);
     }
 
     .login-button:active {
-        transform: translateY(1px);
+        transform: translateY(0px);
     }
 
     .login-divider {
@@ -153,6 +154,34 @@
         text-decoration: underline;
     }
 
+    .password-input-wrapper {
+        position: relative;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: var(--spacing-md);
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--gray-500);
+        font-size: 1.1rem;
+        padding: var(--spacing-xs);
+        transition: color 0.2s ease;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+    }
+
+    .password-toggle:hover {
+        color: var(--primary);
+    }
+
     @media (max-width: 480px) {
         .login-container {
             padding: var(--spacing-md);
@@ -175,7 +204,7 @@
             <h1>
                 <i class="bi bi-boxes"></i> SIMBAR
             </h1>
-            <p class="login-subtitle">Sistem Manajemen Inventaris Barang Kantor</p>
+            <p class="login-subtitle">Office Inventory Management System</p>
         </div>
 
         <!-- Errors -->
@@ -208,7 +237,7 @@
                     value="{{ old('email') }}" 
                     required 
                     autofocus
-                    placeholder="Enter your email"
+                    placeholder="Enter your email address"
                 >
                 @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -218,14 +247,26 @@
             <!-- Password -->
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
-                <input 
-                    type="password" 
-                    class="form-control @error('password') is-invalid @enderror" 
-                    id="password" 
-                    name="password" 
-                    required
-                    placeholder="Enter your password"
-                >
+                <div class="password-input-wrapper">
+                    <input 
+                        type="password" 
+                        class="form-control @error('password') is-invalid @enderror" 
+                        id="password" 
+                        name="password" 
+                        required
+                        placeholder="Enter your password"
+                        style="padding-right: 45px;"
+                    >
+                    <button 
+                        type="button" 
+                        class="password-toggle" 
+                        id="passwordToggle" 
+                        aria-label="Show/hide password"
+                        tabindex="-1"
+                    >
+                        <i class="bi bi-eye" id="passwordIcon"></i>
+                    </button>
+                </div>
                 @error('password')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -259,5 +300,33 @@
         </form>
     </div>
 </div>
+
+<script>
+// Password visibility toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    const passwordToggle = document.getElementById('passwordToggle');
+    const passwordIcon = document.getElementById('passwordIcon');
+
+    if (passwordToggle && passwordInput) {
+        passwordToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Toggle input type
+            const isPasswordType = passwordInput.type === 'password';
+            passwordInput.type = isPasswordType ? 'text' : 'password';
+            
+            // Toggle icon
+            if (isPasswordType) {
+                passwordIcon.classList.remove('bi-eye');
+                passwordIcon.classList.add('bi-eye-slash');
+            } else {
+                passwordIcon.classList.remove('bi-eye-slash');
+                passwordIcon.classList.add('bi-eye');
+            }
+        });
+    }
+});
+</script>
 
 @endsection

@@ -26,11 +26,11 @@ class LoanRequestController extends Controller
 
         $loans = $query->latest('requested_at')->paginate(15);
         $statuses = [
-            'Menunggu Persetujuan' => 'Pending',
-            'Disetujui' => 'Approved',
-            'Ditolak' => 'Rejected',
-            'Dipinjam' => 'Borrowed',
-            'Dikembalikan' => 'Returned',
+            'Pending Approval' => 'Pending Approval',
+            'Approved' => 'Approved',
+            'Rejected' => 'Rejected',
+            'Borrowed' => 'Borrowed',
+            'Returned' => 'Returned',
         ];
 
         return view('staff.loans.index', compact('loans', 'statuses'));
@@ -130,7 +130,15 @@ class LoanRequestController extends Controller
 
         $loan->load('loanItems.item', 'approver');
         
-        return view('staff.loans.show', compact('loan'));
+        $statuses = [
+            'Pending Approval' => 'Pending Approval',
+            'Approved' => 'Approved',
+            'Rejected' => 'Rejected',
+            'Borrowed' => 'Borrowed',
+            'Returned' => 'Returned',
+        ];
+        
+        return view('staff.loans.show', compact('loan', 'statuses'));
     }
 
     /**

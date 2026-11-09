@@ -176,7 +176,7 @@ class ReportingController extends Controller
         if ($request->filled('days_overdue')) {
             $days = (int) $request->get('days_overdue');
             $query->whereHas('loanItems', function ($q) use ($days) {
-                $q->where('planned_return_at', '<', now()->subDays($days));
+                $q->where('planned_return_at', '<=', now()->subDays($days));
             });
         }
 
@@ -334,7 +334,8 @@ class ReportingController extends Controller
         foreach ($overdueLoans as $loan) {
             foreach ($loan->loanItems as $loanItem) {
                 if ($loanItem->planned_return_at < now() && is_null($loanItem->returned_at)) {
-                    $daysOverdue = now()->diffInDays($loanItem->planned_return_at);
+                    // Calculate days overdue correctly (positive number)
+                    $daysOverdue = max(0, (int) $loanItem->planned_return_at->diffInDays(now()));
                     $csv .= "{$loan->id},";
                     $csv .= "\"{$loan->user->name}\",";
                     $csv .= "{$loan->user->email},";
@@ -349,6 +350,38 @@ class ReportingController extends Controller
         return response($csv, 200, [
             'Content-Type' => 'text/csv; charset=utf-8',
             'Content-Disposition' => 'attachment; filename="overdue_report_' . now()->format('Y-m-d_H-i-s') . '.csv"',
+        ]);
+    }
+
+    /**
+     * API endpoint for staff search with autocomplete
+     */
+    public function apiStaffSearch(Request $request)
+    {
+        $query = $request->input('q', '');
+        $limit = 10;
+
+        $staffMembers = \App\Models\User::where('role', 'Staff')
+            ->where('is_active', true)
+            ->where(function ($q) use ($query) {
+                $q->where('name', 'like', "%$query%")
+                  ->orWhere('email', 'like', "%$query%");
+            })
+            ->select('id', 'name', 'email')
+            ->orderBy('name')
+            ->limit($limit)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'results' => $staffMembers->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'text' => "{$user->name} ({$user->email})",
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ];
+            }),
         ]);
     }
 

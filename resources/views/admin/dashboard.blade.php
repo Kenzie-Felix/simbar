@@ -6,6 +6,8 @@
 <style>
     .page-header {
         margin-bottom: var(--spacing-2xl);
+        padding-bottom: var(--spacing-xl);
+        border-bottom: 1px solid var(--gray-100);
     }
 
     .page-title {
@@ -18,48 +20,59 @@
         gap: var(--spacing-md);
     }
 
+    .page-title i {
+        font-size: 1.8rem;
+        background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
     .page-subtitle {
         font-size: var(--font-size-sm);
         color: var(--gray-500);
+        margin: 0;
     }
 
     .stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: var(--spacing-lg);
         margin-bottom: var(--spacing-2xl);
     }
 
-    .stat-card {
-        background: white;
-        border: 1px solid var(--gray-200);
-        border-radius: var(--radius-lg);
-        padding: var(--spacing-lg);
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        transition: all 0.2s ease;
+    .stats-section-title {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+        color: var(--gray-900);
+        margin-top: var(--spacing-2xl);
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 2px solid var(--gray-100);
     }
 
-    .stat-card:hover {
-        box-shadow: var(--shadow-md);
-        transform: translateY(-2px);
-        border-color: var(--primary);
+    .stat-card {
+        position: relative;
+        overflow: hidden;
     }
 
     .stat-content {
         flex: 1;
+        z-index: 2;
+        position: relative;
     }
 
     .stat-label {
         font-size: var(--font-size-sm);
-        color: var(--gray-500);
+        color: var(--gray-600);
         margin-bottom: var(--spacing-xs);
         font-weight: var(--font-weight-medium);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .stat-value {
-        font-size: var(--font-size-2xl);
+        font-size: 2rem;
         font-weight: var(--font-weight-bold);
         color: var(--gray-900);
         margin-bottom: var(--spacing-md);
@@ -67,8 +80,11 @@
 
     .stat-icon {
         font-size: 2rem;
-        opacity: 0.1;
+        opacity: 0.08;
         color: currentColor;
+        position: absolute;
+        bottom: var(--spacing-lg);
+        right: var(--spacing-lg);
     }
 
     .stat-card.primary { color: var(--primary); }
@@ -80,6 +96,7 @@
     .action-btn {
         display: inline-block;
         margin-top: var(--spacing-md);
+        font-size: var(--font-size-xs);
     }
 
     .activity-table {
@@ -93,18 +110,24 @@
         font-size: var(--font-size-sm);
         font-weight: var(--font-weight-semibold);
         color: var(--gray-700);
-        background-color: var(--gray-50);
-        border-bottom: 1px solid var(--gray-200);
+        background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+        border-bottom: 2px solid var(--gray-100);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .activity-table tbody td {
         padding: var(--spacing-md) var(--spacing-lg);
-        border-bottom: 1px solid var(--gray-200);
+        border-bottom: 1px solid var(--gray-100);
         font-size: var(--font-size-sm);
     }
 
+    .activity-table tbody tr {
+        transition: all 0.2s ease;
+    }
+
     .activity-table tbody tr:hover {
-        background-color: var(--gray-50);
+        background-color: var(--primary-light);
     }
 
     .activity-table tbody tr:last-child td {
@@ -116,13 +139,8 @@
             grid-template-columns: 1fr;
         }
 
-        .stat-card {
-            flex-direction: column;
-        }
-
-        .stat-icon {
-            align-self: flex-end;
-            margin-top: var(--spacing-md);
+        .page-title {
+            font-size: var(--font-size-xl);
         }
     }
 </style>
@@ -134,13 +152,13 @@
             <i class="bi bi-speedometer2"></i>
             Admin Dashboard
         </div>
-        <p class="page-subtitle">Overview of inventory system status and pending actions</p>
+        <p class="page-subtitle">System overview, statistics, and pending actions</p>
     </div>
 
     <!-- Alerts -->
     @if (session('success'))
         <div class="alert alert-success">
-            <i class="bi bi-check-circle alert-icon"></i>
+            <i class="bi bi-check-circle-fill alert-icon"></i>
             <div>
                 <strong>Success</strong><br>
                 {{ session('success') }}
@@ -150,7 +168,7 @@
 
     @if (session('error'))
         <div class="alert alert-danger">
-            <i class="bi bi-exclamation-circle alert-icon"></i>
+            <i class="bi bi-exclamation-circle-fill alert-icon"></i>
             <div>
                 <strong>Error</strong><br>
                 {{ session('error') }}
@@ -158,10 +176,13 @@
         </div>
     @endif
 
-    <!-- Statistics Grid -->
+    <!-- Primary Statistics -->
+    <div class="stats-section-title">
+        <i class="bi bi-speedometer2" style="margin-right: var(--spacing-sm);"></i> Key Metrics
+    </div>
     <div class="stats-grid">
         <!-- Total Items -->
-        <div class="stat-card primary">
+        <div class="stat-card card primary">
             <div class="stat-content">
                 <div class="stat-label">Total Items</div>
                 <div class="stat-value">{{ $stats['total_items'] ?? 0 }}</div>
@@ -172,7 +193,7 @@
         </div>
 
         <!-- Available Stock -->
-        <div class="stat-card success">
+        <div class="stat-card card success">
             <div class="stat-content">
                 <div class="stat-label">Available Stock</div>
                 <div class="stat-value">{{ $stats['total_available_stock'] ?? 0 }}</div>
@@ -183,7 +204,7 @@
         </div>
 
         <!-- Active Loans -->
-        <div class="stat-card info">
+        <div class="stat-card card info">
             <div class="stat-content">
                 <div class="stat-label">Active Loans</div>
                 <div class="stat-value">{{ $stats['total_active_loans'] ?? 0 }}</div>
@@ -194,9 +215,9 @@
         </div>
 
         <!-- Pending Approvals -->
-        <div class="stat-card warning">
+        <div class="stat-card card warning">
             <div class="stat-content">
-                <div class="stat-label">Pending Approvals</div>
+                <div class="stat-label">Pending Approval</div>
                 <div class="stat-value">{{ $stats['pending_approvals'] ?? 0 }}</div>
                 <a href="{{ route('admin.loans.index', ['status' => 'Menunggu Persetujuan']) }}" class="btn btn-sm btn-outline-primary action-btn">
                     <i class="bi bi-arrow-right"></i> Review
@@ -208,10 +229,13 @@
         </div>
 
         <!-- Pending Verifications -->
-        <div class="stat-card danger">
+        <div class="stat-card card info">
             <div class="stat-content">
-                <div class="stat-label">Pending Verifications</div>
+                <div class="stat-label">Pending Verification</div>
                 <div class="stat-value">{{ $stats['pending_verifications'] ?? 0 }}</div>
+                <a href="{{ route('admin.returns.index', ['status' => 'Menunggu Verifikasi']) }}" class="btn btn-sm btn-outline-primary action-btn">
+                    <i class="bi bi-arrow-right"></i> Review
+                </a>
             </div>
             <div class="stat-icon">
                 <i class="bi bi-check2-circle"></i>
@@ -219,10 +243,13 @@
         </div>
 
         <!-- Overdue Loans -->
-        <div class="stat-card danger">
+        <div class="stat-card card danger">
             <div class="stat-content">
                 <div class="stat-label">Overdue Loans</div>
                 <div class="stat-value">{{ $stats['overdue_loans'] ?? 0 }}</div>
+                <a href="{{ route('admin.reports.overdue') }}" class="btn btn-sm btn-outline-primary action-btn">
+                    <i class="bi bi-arrow-right"></i> View
+                </a>
             </div>
             <div class="stat-icon">
                 <i class="bi bi-exclamation-triangle"></i>
@@ -230,13 +257,19 @@
         </div>
     </div>
 
-    <!-- Secondary Stats Row -->
-    <div class="stats-grid" style="margin-bottom: var(--spacing-2xl);">
+    <!-- Inventory Status -->
+    <div class="stats-section-title">
+        <i class="bi bi-boxes" style="margin-right: var(--spacing-sm);"></i> Inventory Status
+    </div>
+    <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
         <!-- Low Stock Items -->
-        <div class="stat-card warning">
+        <div class="stat-card card warning">
             <div class="stat-content">
-                <div class="stat-label">Low Stock Items</div>
+                <div class="stat-label">Low Stock Items (≤5)</div>
                 <div class="stat-value">{{ $stats['low_stock_items'] ?? 0 }}</div>
+                <a href="{{ route('admin.reports.inventory') }}" class="btn btn-sm btn-outline-primary action-btn">
+                    <i class="bi bi-arrow-right"></i> View
+                </a>
             </div>
             <div class="stat-icon">
                 <i class="bi bi-exclamation-circle"></i>
@@ -244,7 +277,7 @@
         </div>
 
         <!-- Out of Stock -->
-        <div class="stat-card danger">
+        <div class="stat-card card danger">
             <div class="stat-content">
                 <div class="stat-label">Out of Stock</div>
                 <div class="stat-value">{{ $stats['out_of_stock_items'] ?? 0 }}</div>
@@ -254,33 +287,33 @@
             </div>
         </div>
 
-        <!-- Completed Loans -->
-        <div class="stat-card success">
+        <!-- Categories -->
+        <div class="stat-card card primary">
             <div class="stat-content">
-                <div class="stat-label">Completed Loans</div>
-                <div class="stat-value">{{ $stats['total_completed_loans'] ?? 0 }}</div>
+                <div class="stat-label">Categories</div>
+                <div class="stat-value">{{ $stats['total_categories'] ?? 0 }}</div>
             </div>
             <div class="stat-icon">
-                <i class="bi bi-check-all"></i>
+                <i class="bi bi-tags"></i>
             </div>
         </div>
 
-        <!-- Return Requests -->
-        <div class="stat-card info">
+        <!-- Locations -->
+        <div class="stat-card card primary">
             <div class="stat-content">
-                <div class="stat-label">Return Requests</div>
-                <div class="stat-value">{{ $stats['total_return_requests'] ?? 0 }}</div>
+                <div class="stat-label">Locations</div>
+                <div class="stat-value">{{ $stats['total_locations'] ?? 0 }}</div>
             </div>
             <div class="stat-icon">
-                <i class="bi bi-box-arrow-down"></i>
+                <i class="bi bi-geo-alt"></i>
             </div>
         </div>
     </div>
 
     <!-- Recent Activity Section -->
-    <div class="card">
+    <div class="card" style="margin-top: var(--spacing-2xl);">
         <div class="card-header">
-            <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md);">
+            <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md); font-size: var(--font-size-lg);">
                 <i class="bi bi-activity"></i>
                 Recent Activity
             </h5>
@@ -301,7 +334,7 @@
                             @foreach ($recentLogs as $log)
                                 <tr>
                                     <td>
-                                        <span style="color: var(--gray-600); font-weight: var(--font-weight-medium);">
+                                        <span style="color: var(--gray-700); font-weight: var(--font-weight-medium);">
                                             {{ $log->user?->name ?? 'System' }}
                                         </span>
                                     </td>
@@ -309,10 +342,11 @@
                                         <span class="badge badge-primary">{{ $log->action }}</span>
                                     </td>
                                     <td>
-                                        {{ $log->entity_type }} <span style="color: var(--primary);">#{{ $log->entity_id }}</span>
+                                        <span style="color: var(--gray-600);">{{ $log->entity_type }}</span>
+                                        <span style="color: var(--primary); font-weight: var(--font-weight-semibold);">#{{ $log->entity_id }}</span>
                                     </td>
                                     <td>
-                                        <span style="color: var(--gray-500);">{{ $log->created_at?->diffForHumans() }}</span>
+                                        <span style="color: var(--gray-500); font-size: var(--font-size-xs);">{{ $log->created_at?->diffForHumans() }}</span>
                                     </td>
                                 </tr>
                             @endforeach

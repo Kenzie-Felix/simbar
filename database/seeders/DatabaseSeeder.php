@@ -18,19 +18,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user
-        User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'role' => 'admin',
-        ]);
+        // Create or update admin user (prevent duplicates)
+        User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin User',
+                'role' => 'Admin',
+                'is_active' => true,
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            ]
+        );
 
-        // Create staff user
-        User::factory()->create([
-            'name' => 'Staff User',
-            'email' => 'staff@example.com',
-            'role' => 'staff',
-        ]);
+        // Create or update staff user (prevent duplicates)
+        User::updateOrCreate(
+            ['email' => 'staff@example.com'],
+            [
+                'name' => 'Staff User',
+                'role' => 'Staff',
+                'is_active' => true,
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            ]
+        );
 
         // Create categories
         $categories = [

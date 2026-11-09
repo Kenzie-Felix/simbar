@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Reject Return Request - SIMBAR')
+@section('title', 'Tolak Permintaan Pengembalian - SIMBAR')
 
 @section('content')
 <style>
@@ -197,12 +197,12 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-x-circle"></i>
-                Reject Return Request
+                Tolak Permintaan Pengembalian
             </h1>
-            <p>Provide a reason for rejecting this return</p>
+            <p>Berikan alasan untuk menolak pengembalian ini</p>
         </div>
         <a href="{{ route('admin.returns.show', $return) }}" class="btn btn-secondary">
-            <i class="bi bi-arrow-left"></i> Back
+            <i class="bi bi-arrow-left"></i> Kembali
         </a>
     </div>
 
@@ -212,25 +212,25 @@
         <div>
             <!-- Return Summary -->
             <div class="summary-card">
-                <h5>Return Request #{{ $return->id }}</h5>
+                <h5>Permintaan Pengembalian #{{ $return->id }}</h5>
                 <div class="summary-item">
-                    <div class="summary-label">Staff Member</div>
+                    <div class="summary-label">Anggota Staf</div>
                     <div class="summary-value">{{ $return->loan->user->name }}</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-label">Submitted Date</div>
+                    <div class="summary-label">Tanggal Dikirim</div>
                     <div class="summary-value">{{ $return->submitted_at->format('d M Y H:i') }}</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-label">Items Returned</div>
-                    <div class="summary-value">{{ $return->getReturnedItemsCount() }} items ({{ $return->getTotalReturnedQuantity() }} units)</div>
+                    <div class="summary-label">Barang Dikembalikan</div>
+                    <div class="summary-value">{{ $return->getReturnedItemsCount() }} barang ({{ $return->getTotalReturnedQuantity() }} unit)</div>
                 </div>
             </div>
 
             <!-- Rejection Form -->
             <div class="form-card">
                 <h5 style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--gray-900); margin-bottom: var(--spacing-lg); padding-bottom: var(--spacing-lg); border-bottom: 1px solid var(--gray-200);">
-                    <i class="bi bi-chat-left-text"></i> Rejection Reason
+                    <i class="bi bi-chat-left-text"></i> Alasan untuk Penolakan
                 </h5>
 
                 <form action="{{ route('admin.returns.reject', $return) }}" method="POST">
@@ -239,18 +239,18 @@
                     <!-- Rejection Reason -->
                     <div class="form-group">
                         <label for="rejection_reason" class="form-label">
-                            Reason for Rejection <span class="required">*</span>
+                            Alasan untuk Penolakan <span class="required">*</span>
                         </label>
                         <textarea 
                             class="form-control @error('rejection_reason') is-invalid @enderror" 
                             id="rejection_reason" 
                             name="rejection_reason" 
                             rows="5" 
-                            placeholder="Explain why this return is being rejected..."
+                            placeholder="Jelaskan mengapa pengembalian ini ditolak..."
                             maxlength="500"
                             required
                         >{{ old('rejection_reason') }}</textarea>
-                        <div class="form-help">Maximum 500 characters</div>
+                        <div class="form-help">Maksimal 500 karakter</div>
                         @error('rejection_reason')
                             <div style="color: var(--danger); font-size: var(--font-size-xs); margin-top: var(--spacing-xs);">{{ $message }}</div>
                         @enderror
@@ -258,19 +258,19 @@
 
                     <!-- Quick Reasons -->
                     <div class="form-group">
-                        <label class="form-label">Quick Reasons:</label>
+                        <label class="form-label">Alasan Cepat:</label>
                         <div class="quick-reasons">
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Items do not match the borrowed inventory.')">
-                                Items Mismatch
+                            <button type="button" class="quick-reason-btn" onclick="setReason('Barang tidak sesuai dengan inventaris yang dipinjam.')">
+                                Ketidaksesuaian Barang
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Quantity returned does not match the quantity requested.')">
-                                Quantity Mismatch
+                            <button type="button" class="quick-reason-btn" onclick="setReason('Jumlah yang dikembalikan tidak sesuai dengan jumlah yang diminta.')">
+                                Ketidaksesuaian Jumlah
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Items are in unacceptable condition.')">
-                                Condition Issue
+                            <button type="button" class="quick-reason-btn" onclick="setReason('Barang dalam kondisi yang tidak dapat diterima.')">
+                                Masalah Kondisi
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Return request does not comply with inventory policies.')">
-                                Policy Violation
+                            <button type="button" class="quick-reason-btn" onclick="setReason('Permintaan pengembalian tidak sesuai dengan kebijakan inventaris.')">
+                                Pelanggaran Kebijakan
                             </button>
                         </div>
                     </div>
@@ -279,17 +279,17 @@
                     <div class="alert alert-warning">
                         <i class="bi bi-exclamation-triangle alert-icon"></i>
                         <div>
-                            <strong>Note:</strong> The staff member will be notified of the rejection with the reason provided. No stock will be restored.
+                            <strong>Catatan:</strong> Anggota staf akan diberitahu tentang penolakan dengan alasan yang diberikan. Stok tidak akan dipulihkan.
                         </div>
                     </div>
 
                     <!-- Action Buttons -->
                     <div class="action-buttons">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to reject this return request?')">
-                            <i class="bi bi-x-circle"></i> Confirm Rejection
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menolak permintaan pengembalian ini?')">
+                            <i class="bi bi-x-circle"></i> Konfirmasi Penolakan
                         </button>
                         <a href="{{ route('admin.returns.show', $return) }}" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left"></i> Cancel
+                            <i class="bi bi-arrow-left"></i> Batal
                         </a>
                     </div>
                 </form>
@@ -300,12 +300,12 @@
         <div>
             <!-- Items Preview -->
             <div class="sidebar-card">
-                <h6>Items Being Returned</h6>
+                <h6>Barang yang Dikembalikan</h6>
                 @foreach ($return->returnItems as $item)
                     <div class="item-entry">
                         <span style="color: var(--gray-500);">{{ $item->loanItem->item->code }}</span>
                         <strong>{{ $item->loanItem->item->name }}</strong>
-                        <span>Qty: <strong>{{ $item->quantity }}</strong> | Condition: <span class="badge badge-{{ $item->loanItem->item->getConditionBadgeColor() }}">{{ $item->condition }}</span></span>
+                        <span>Jml: <strong>{{ $item->quantity }}</strong> | Kondisi: <span class="badge badge-{{ $item->loanItem->item->getConditionBadgeColor() }}">{{ $item->condition }}</span></span>
                     </div>
                 @endforeach
             </div>

@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
         
         // Item routes
         Route::resource('items', \App\Http\Controllers\Admin\ItemController::class);
+        Route::post('items/preview-image', [\App\Http\Controllers\Admin\ItemController::class, 'previewImage'])->name('items.preview-image');
         
         // Stock movement routes
         Route::prefix('stock')->name('stock.')->group(function () {
@@ -89,6 +90,7 @@ Route::middleware('auth')->group(function () {
             Route::get('export/inventory', [\App\Http\Controllers\Admin\ReportingController::class, 'exportInventory'])->name('export-inventory');
             Route::get('export/stock-movement', [\App\Http\Controllers\Admin\ReportingController::class, 'exportStockMovement'])->name('export-stock-movement');
             Route::get('export/overdue', [\App\Http\Controllers\Admin\ReportingController::class, 'exportOverdue'])->name('export-overdue');
+            Route::get('api/staff-search', [\App\Http\Controllers\Admin\ReportingController::class, 'apiStaffSearch'])->name('api.staff-search');
         });
     });
 

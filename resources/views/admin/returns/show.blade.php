@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Verify Return Request - SIMBAR')
+@section('title', 'Verifikasi Permintaan Pengembalian - SIMBAR')
 
 @section('content')
 <style>
@@ -114,12 +114,12 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-clipboard-check"></i>
-                Verify Return Request #{{ $return->id }}
+                Verifikasi Permintaan Pengembalian #{{ $return->id }}
             </h1>
-            <p>Review and verify returned items</p>
+            <p>Tinjau dan verifikasi barang yang dikembalikan</p>
         </div>
         <a href="{{ route('admin.returns.index') }}" class="btn btn-outline-primary">
-            <i class="bi bi-arrow-left"></i> Back
+            <i class="bi bi-arrow-left"></i> Kembali
         </a>
     </div>
 
@@ -153,13 +153,13 @@
             <div class="card">
                 <div class="card-header">
                     <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md);">
-                        <i class="bi bi-person"></i> Staff Information
+                        <i class="bi bi-person"></i> Informasi Staf
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="detail-row">
                         <div class="detail-field">
-                            <span class="detail-label">Name</span>
+                            <span class="detail-label">Nama</span>
                             <span class="detail-value">{{ $return->loan->user->name }}</span>
                         </div>
                         <div class="detail-field">
@@ -174,17 +174,17 @@
             <div class="card" style="margin-top: var(--spacing-lg);">
                 <div class="card-header">
                     <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md);">
-                        <i class="bi bi-info-circle"></i> Return Information
+                        <i class="bi bi-info-circle"></i> Informasi Pengembalian
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="detail-row">
                         <div class="detail-field">
-                            <span class="detail-label">Loan Reference</span>
+                            <span class="detail-label">Referensi Pinjaman</span>
                             <span class="detail-value">#{{ $return->loan->id }}</span>
                         </div>
                         <div class="detail-field">
-                            <span class="detail-label">Submitted Date</span>
+                            <span class="detail-label">Tanggal Dikirim</span>
                             <span class="detail-value">{{ $return->submitted_at->format('d M Y H:i') }}</span>
                         </div>
                     </div>
@@ -201,19 +201,19 @@
             <div class="card" style="margin-top: var(--spacing-lg);">
                 <div class="card-header">
                     <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md);">
-                        <i class="bi bi-collection"></i> Returned Items
+                        <i class="bi bi-collection"></i> Barang yang Dikembalikan
                     </h5>
                 </div>
                 <div style="overflow-x: auto;">
                     <table class="items-table">
                         <thead>
                             <tr>
-                                <th>Item Code</th>
-                                <th>Item Name</th>
-                                <th>Borrowed Qty</th>
-                                <th>Returned Qty</th>
-                                <th>Condition</th>
-                                <th>Notes</th>
+                                <th>Kode Barang</th>
+                                <th>Nama Barang</th>
+                                <th>Jml Dipinjam</th>
+                                <th>Jml Dikembalikan</th>
+                                <th>Kondisi</th>
+                                <th>Catatan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -242,37 +242,37 @@
             @if ($return->isPending())
                 <div class="card sticky-action">
                     <div class="card-header">
-                        <h5 style="margin: 0;">Take Action</h5>
+                        <h5 style="margin: 0;">Ambil Tindakan</h5>
                     </div>
                     <div class="card-body">
                         <!-- Verify Form -->
                         <form action="{{ route('admin.returns.verify', $return) }}" method="POST" style="margin-bottom: var(--spacing-md);">
                             @csrf
                             <div style="margin-bottom: var(--spacing-md);">
-                                <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-medium); font-size: var(--font-size-sm);">Verification Notes (Optional)</label>
+                                <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-medium); font-size: var(--font-size-sm);">Catatan Verifikasi (Opsional)</label>
                                 <textarea 
                                     class="form-control" 
                                     name="admin_notes" 
                                     rows="3" 
-                                    placeholder="Add any verification notes..." 
+                                    placeholder="Tambahkan catatan verifikasi apa pun..." 
                                     maxlength="500"
                                     style="border: 1px solid var(--gray-300); border-radius: var(--radius-md); padding: var(--spacing-sm); font-size: var(--font-size-sm); font-family: var(--font-family);"
                                 ></textarea>
                             </div>
-                            <button type="submit" class="btn btn-success" style="width: 100%; margin-bottom: var(--spacing-md);" onclick="return confirm('Are you sure you want to verify and accept this return? Stock will be restored.')">
-                                <i class="bi bi-check2"></i> Accept Return
+                            <button type="submit" class="btn btn-success" style="width: 100%; margin-bottom: var(--spacing-md);" onclick="return confirm('Apakah Anda yakin ingin memverifikasi dan menerima pengembalian ini? Stok akan dipulihkan.')">
+                                <i class="bi bi-check2"></i> Terima Pengembalian
                             </button>
                         </form>
 
                         <!-- Reject Button -->
                         <a href="{{ route('admin.returns.rejectForm', $return) }}" class="btn btn-danger" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: var(--spacing-sm);">
-                            <i class="bi bi-x-circle"></i> Reject Return
+                            <i class="bi bi-x-circle"></i> Tolak Pengembalian
                         </a>
 
                         <div class="alert alert-info" style="margin-top: var(--spacing-md); margin-bottom: 0;">
                             <i class="bi bi-info-circle"></i>
                             <small>
-                                <strong>On Accept:</strong> Stock will be restored based on item condition. Damaged/Lost items won't be added to available stock.
+                                <strong>Saat Terima:</strong> Stok akan dipulihkan berdasarkan kondisi barang. Barang yang rusak/hilang tidak akan ditambahkan ke stok yang tersedia.
                             </small>
                         </div>
                     </div>
@@ -283,19 +283,19 @@
                         <h5 style="margin: 0;">Status</h5>
                     </div>
                     <div class="card-body">
-                        <p style="color: var(--gray-500); margin-bottom: var(--spacing-md);">This return has already been processed.</p>
+                        <p style="color: var(--gray-500); margin-bottom: var(--spacing-md);">Pengembalian ini telah diproses.</p>
                         <span class="badge badge-{{ $return->status === 'Terima' ? 'success' : 'danger' }}" style="display: inline-block; padding: var(--spacing-sm) var(--spacing-md); font-size: var(--font-size-base);">
                             {{ $return->status }}
                         </span>
 
                         @if ($return->isAccepted())
                             <div style="margin-top: var(--spacing-lg);">
-                                <p style="font-size: var(--font-size-sm); color: var(--gray-500); margin-bottom: var(--spacing-xs);">Verified by {{ $return->verifier?->name ?? 'System' }}</p>
+                                <p style="font-size: var(--font-size-sm); color: var(--gray-500); margin-bottom: var(--spacing-xs);">Diverifikasi oleh {{ $return->verifier?->name ?? 'Sistem' }}</p>
                                 <p style="font-size: var(--font-size-sm); color: var(--gray-500); margin: 0;">{{ $return->verified_at->format('d M Y H:i') }}</p>
                             </div>
                         @elseif ($return->isRejected())
                             <div style="margin-top: var(--spacing-lg);">
-                                <p style="font-size: var(--font-size-sm); color: var(--danger); margin: 0;"><strong>Reason:</strong> {{ $return->rejection_reason }}</p>
+                                <p style="font-size: var(--font-size-sm); color: var(--danger); margin: 0;"><strong>Alasan:</strong> {{ $return->rejection_reason }}</p>
                             </div>
                         @endif
                     </div>
@@ -305,17 +305,17 @@
             <!-- Summary Card -->
             <div class="card" style="margin-top: var(--spacing-lg);">
                 <div class="card-header">
-                    <h6 style="margin: 0;">Return Summary</h6>
+                    <h6 style="margin: 0;">Ringkasan Pengembalian</h6>
                 </div>
                 <div class="card-body">
                     <div style="margin-bottom: var(--spacing-lg);">
-                        <p class="detail-label">Items Returned</p>
+                        <p class="detail-label">Barang Dikembalikan</p>
                         <h3 style="margin: 0; font-size: var(--font-size-2xl); color: var(--primary);">{{ $return->getReturnedItemsCount() }}</h3>
                     </div>
 
                     <div>
-                        <p class="detail-label">Total Quantity</p>
-                        <h3 style="margin: 0; font-size: var(--font-size-2xl); color: var(--success);">{{ $return->getTotalReturnedQuantity() }} units</h3>
+                        <p class="detail-label">Total Kuantitas</p>
+                        <h3 style="margin: 0; font-size: var(--font-size-2xl); color: var(--success);">{{ $return->getTotalReturnedQuantity() }} unit</h3>
                     </div>
                 </div>
             </div>

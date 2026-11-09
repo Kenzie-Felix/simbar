@@ -28,12 +28,14 @@
         margin: 0;
     }
 
+    /* Form Section */
     .form-section {
         background: white;
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-lg);
         padding: var(--spacing-lg);
         margin-bottom: var(--spacing-lg);
+        box-shadow: var(--shadow-sm);
     }
 
     .form-section-title {
@@ -46,12 +48,143 @@
         gap: var(--spacing-md);
     }
 
+    /* Item Row */
     .item-row {
         background: var(--gray-50);
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-lg);
         padding: var(--spacing-lg);
         margin-bottom: var(--spacing-lg);
+        transition: all 0.2s ease;
+    }
+
+    .item-row:hover {
+        border-color: var(--primary);
+        background: white;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .item-row-header {
+        display: grid;
+        grid-template-columns: 1fr 150px 130px;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    @media (max-width: 768px) {
+        .item-row-header {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
+        }
+
+        .item-row-header > div {
+            width: 100%;
+        }
+
+        .item-row {
+            padding: var(--spacing-md);
+        }
+
+        .item-row-label {
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .form-control,
+        .form-select {
+            width: 100%;
+        }
+
+        .form-section {
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .summary-box {
+            padding: var(--spacing-lg);
+        }
+
+        .alert-stock {
+            padding: var(--spacing-md);
+            font-size: var(--font-size-xs);
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .item-row-header {
+            grid-template-columns: 1fr;
+        }
+
+        .item-row {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-control,
+        .form-select {
+            font-size: 16px;
+            padding: var(--spacing-sm) var(--spacing-md);
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .summary-box {
+            padding: var(--spacing-md);
+        }
+
+        .summary-row {
+            padding: var(--spacing-sm) 0;
+            margin-bottom: var(--spacing-sm);
+        }
+    }
+
+    .item-row-label {
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+        color: var(--gray-700);
+        margin-bottom: var(--spacing-xs);
+        display: block;
+    }
+
+    .item-row-label .required {
+        color: var(--danger);
+    }
+
+    .form-control,
+    .form-select {
+        width: 100%;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border: 1px solid var(--gray-300);
+        border-radius: var(--radius-md);
+        font-size: var(--font-size-sm);
+        transition: all 0.2s ease;
+        font-family: inherit;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .form-control.is-invalid,
+    .form-select.is-invalid {
+        border-color: var(--danger);
+    }
+
+    .form-control.is-invalid:focus,
+    .form-select.is-invalid:focus {
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
     }
 
     .alert-stock {
@@ -61,48 +194,55 @@
         display: flex;
         align-items: center;
         gap: var(--spacing-md);
+        margin-top: var(--spacing-md);
     }
 
     .alert-success {
-        background-color: var(--success-light);
-        color: var(--success);
-        border: 1px solid var(--success);
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
     }
 
     .alert-warning {
-        background-color: var(--warning-light);
-        color: var(--warning);
-        border: 1px solid var(--warning);
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
     }
 
+    /* Summary Box */
     .summary-box {
-        background: var(--gray-50);
+        background: linear-gradient(135deg, var(--gray-50), white);
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-lg);
         padding: var(--spacing-lg);
         margin-bottom: var(--spacing-lg);
+        box-shadow: var(--shadow-sm);
     }
 
     .summary-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: var(--spacing-md);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 1px solid var(--gray-200);
     }
 
     .summary-row:last-child {
         margin-bottom: 0;
+        border-bottom: none;
+        padding-bottom: 0;
     }
 
     .summary-label {
         font-size: var(--font-size-sm);
         color: var(--gray-600);
+        font-weight: var(--font-weight-medium);
     }
 
     .summary-value {
         font-size: var(--font-size-lg);
         font-weight: var(--font-weight-bold);
-        color: var(--gray-900);
+        color: var(--primary);
     }
 </style>
 
@@ -225,9 +365,9 @@
 <!-- Item Row Template -->
 <template id="itemRowTemplate">
     <div class="item-row">
-        <div style="display: grid; grid-template-columns: 1fr 200px 120px; gap: var(--spacing-md); margin-bottom: var(--spacing-md);">
+        <div style="display: grid; grid-template-columns: 1fr 150px 130px; gap: var(--spacing-md); margin-bottom: var(--spacing-md); align-items: end;">
             <div>
-                <label class="form-label" style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium);">Item <span style="color: var(--danger);">*</span></label>
+                <label class="item-row-label">Item <span class="required">*</span></label>
                 <select class="form-select item-select" name="items[INDEX][item_id]" required>
                     <option value="">-- Select Item --</option>
                     @foreach ($items as $item)
@@ -239,7 +379,7 @@
             </div>
 
             <div>
-                <label class="form-label" style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium);">Quantity <span style="color: var(--danger);">*</span></label>
+                <label class="item-row-label">Qty <span class="required">*</span></label>
                 <input 
                     type="number" 
                     class="form-control quantity-input" 
@@ -248,14 +388,13 @@
                     min="1" 
                     max="999"
                     required
+                    style="text-align: center;"
                 >
             </div>
 
-            <div style="display: flex; align-items: flex-end;">
-                <button type="button" class="btn btn-outline-danger remove-item-btn" style="width: 100%; white-space: nowrap;">
-                    <i class="bi bi-trash"></i> Remove
-                </button>
-            </div>
+            <button type="button" class="btn btn-outline-danger remove-item-btn" style="width: 100%; white-space: nowrap;">
+                <i class="bi bi-trash"></i> Remove
+            </button>
         </div>
 
         <div class="alert-stock" style="display: none; margin-bottom: 0;">

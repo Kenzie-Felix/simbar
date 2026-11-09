@@ -30,8 +30,77 @@
 
     .content-grid {
         display: grid;
-        grid-template-columns: 1fr 350px;
+        grid-template-columns: 1fr;
         gap: var(--spacing-lg);
+    }
+
+    .item-detail-image {
+        width: 100%;
+        max-height: 600px;
+        object-fit: contain;
+        background: var(--gray-50);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--gray-200);
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+        transition: transform 0.3s ease;
+        cursor: zoom-in;
+    }
+
+    .item-detail-image:hover {
+        transform: scale(1.02);
+    }
+
+    /* Modal for zoomed image */
+    .image-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        padding: var(--spacing-lg);
+    }
+
+    .image-modal.active {
+        display: flex;
+    }
+
+    .image-modal-content {
+        position: relative;
+        max-width: 90vw;
+        max-height: 90vh;
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+    }
+
+    .image-modal-img {
+        max-width: 100%;
+        max-height: 85vh;
+        object-fit: contain;
+    }
+
+    .image-modal-close {
+        position: absolute;
+        top: var(--spacing-md);
+        right: var(--spacing-md);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: var(--radius-md);
+        padding: var(--spacing-sm) var(--spacing-md);
+        cursor: pointer;
+        font-size: var(--font-size-lg);
+        transition: all 0.2s ease;
+    }
+
+    .image-modal-close:hover {
+        background: rgba(0, 0, 0, 0.8);
     }
 
     .detail-row {
@@ -139,10 +208,10 @@
         </div>
         <div style="display: flex; gap: var(--spacing-sm);">
             <a href="{{ route('admin.items.edit', $item) }}" class="btn btn-primary">
-                <i class="bi bi-pencil"></i> Edit
+                <i class="bi bi-pencil"></i> Sunting
             </a>
             <a href="{{ route('admin.items.index') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> Back
+                <i class="bi bi-arrow-left"></i> Kembali
             </a>
         </div>
     </div>
@@ -151,38 +220,50 @@
     <div class="content-grid">
         <!-- Main Content -->
         <div>
+            <!-- Item Image -->
+            <div>
+                <img src="{{ $item->getImageUrl() }}" alt="{{ $item->name }}" class="item-detail-image" onclick="zoomImage(this)" title="Klik untuk memperbesar">
+                <!-- Image Zoom Modal -->
+                <div class="image-modal" id="imageModal">
+                    <div class="image-modal-content">
+                        <button class="image-modal-close" onclick="closeImageZoom()">&times;</button>
+                        <img src="{{ $item->getImageUrl() }}" alt="{{ $item->name }}" class="image-modal-img">
+                    </div>
+                </div>
+            </div>
+
             <!-- Item Details -->
             <div class="card">
                 <div class="card-header">
                     <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md);">
-                        <i class="bi bi-info-circle"></i> Item Details
+                        <i class="bi bi-info-circle"></i> Detail Barang
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="detail-row">
                         <div class="detail-field">
-                            <span class="detail-label">Category</span>
+                            <span class="detail-label">Kategori</span>
                             <span class="badge badge-secondary">{{ $item->category->name }}</span>
                         </div>
                         <div class="detail-field">
-                            <span class="detail-label">Location</span>
+                            <span class="detail-label">Lokasi</span>
                             <span class="detail-value">{{ $item->location->name }}</span>
                         </div>
                     </div>
                     @if ($item->description)
                         <div class="detail-field">
-                            <span class="detail-label">Description</span>
+                            <span class="detail-label">Deskripsi</span>
                             <span class="detail-value" style="font-size: var(--font-size-sm);">{{ $item->description }}</span>
                         </div>
                     @endif
                     <div class="detail-row">
                         <div class="detail-field">
-                            <span class="detail-label">Created</span>
-                            <span class="detail-value" style="font-size: var(--font-size-sm);">{{ $item->created_at->format('M d, Y H:i') }}</span>
+                            <span class="detail-label">Dibuat</span>
+                            <span class="detail-value" style="font-size: var(--font-size-sm);">{{ $item->created_at ? $item->created_at->format('d M Y H:i') : 'Belum tersedia' }}</span>
                         </div>
                         <div class="detail-field">
-                            <span class="detail-label">Last Updated</span>
-                            <span class="detail-value" style="font-size: var(--font-size-sm);">{{ $item->updated_at->format('M d, Y H:i') }}</span>
+                            <span class="detail-label">Terakhir Diperbarui</span>
+                            <span class="detail-value" style="font-size: var(--font-size-sm);">{{ $item->updated_at ? $item->updated_at->format('d M Y H:i') : 'Belum tersedia' }}</span>
                         </div>
                     </div>
                 </div>
@@ -192,21 +273,21 @@
             <div class="card" style="margin-top: var(--spacing-lg);">
                 <div class="card-header">
                     <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md);">
-                        <i class="bi bi-graph-up"></i> Stock Summary
+                        <i class="bi bi-graph-up"></i> Ringkasan Stok
                     </h5>
                 </div>
                 <div class="card-body">
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-lg);">
                         <div class="stat-box">
-                            <div class="stat-box-label">Total Stock</div>
+                            <div class="stat-box-label">Total Stok</div>
                             <div class="stat-box-value" style="color: var(--info);">{{ $item->total_stock }}</div>
                         </div>
                         <div class="stat-box">
-                            <div class="stat-box-label">Available</div>
+                            <div class="stat-box-label">Tersedia</div>
                             <div class="stat-box-value" style="color: var(--success);">{{ $item->available_stock }}</div>
                         </div>
                         <div class="stat-box">
-                            <div class="stat-box-label">In Use</div>
+                            <div class="stat-box-label">Sedang Digunakan</div>
                             <div class="stat-box-value" style="color: var(--warning);">{{ $item->total_stock - $item->available_stock }}</div>
                         </div>
                     </div>
@@ -217,7 +298,7 @@
             <div class="card" style="margin-top: var(--spacing-lg);">
                 <div class="card-header">
                     <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md);">
-                        <i class="bi bi-info-circle"></i> Item Condition
+                        <i class="bi bi-info-circle"></i> Kondisi Barang
                     </h5>
                 </div>
                 <div class="card-body">
@@ -232,16 +313,16 @@
                 <div class="card" style="margin-top: var(--spacing-lg);">
                     <div class="card-header">
                         <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md);">
-                            <i class="bi bi-clock-history"></i> Condition History
+                            <i class="bi bi-clock-history"></i> Riwayat Kondisi
                         </h5>
                     </div>
                     <div class="card-body">
                         <div style="position: relative; padding-left: 30px;">
                             @foreach ($item->conditionLogs as $log)
                                 <div style="padding-bottom: 15px; border-left: 2px solid var(--gray-200); padding-left: 15px;">
-                                    <small style="color: var(--gray-500);">{{ $log->created_at->format('M d, Y H:i') }}</small>
+                                    <small style="color: var(--gray-500);">{{ $log->created_at ? $log->created_at->format('M d, Y H:i') : '-' }}</small>
                                     <p style="small; margin: var(--spacing-xs) 0 0 0; font-weight: var(--font-weight-medium);">
-                                        {{ $log->changedBy->name }} changed condition
+                                        {{ $log->changedBy ? $log->changedBy->name : 'System' }} changed condition
                                     </p>
                                     <p style="font-size: var(--font-size-sm); color: var(--gray-600); margin: 0;">
                                         {{ $log->getConditionChangeLabel() }}
@@ -261,31 +342,31 @@
                 <div class="card" style="margin-top: var(--spacing-lg);">
                     <div class="card-header">
                         <h5 style="margin: 0; display: flex; align-items: center; gap: var(--spacing-md);">
-                            <i class="bi bi-arrow-left-right"></i> Stock Movements
+                            <i class="bi bi-arrow-left-right"></i> Pergerakan Stok
                         </h5>
                     </div>
                     <div style="overflow-x: auto;">
                         <table class="movements-table">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Type</th>
-                                    <th>Quantity</th>
-                                    <th>By</th>
-                                    <th>Notes</th>
+                                    <th>Tanggal</th>
+                                    <th>Tipe</th>
+                                    <th>Jumlah</th>
+                                    <th>Oleh</th>
+                                    <th>Catatan</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($item->stockMovements->sortByDesc('created_at')->take(10) as $movement)
                                     <tr>
-                                        <td>{{ $movement->created_at->format('M d, Y H:i') }}</td>
+                                        <td>{{ $movement->created_at ? $movement->created_at->format('M d, Y H:i') : '-' }}</td>
                                         <td>
                                             <span class="badge badge-{{ $movement->type === 'In' ? 'success' : ($movement->type === 'Out' ? 'danger' : 'secondary') }}">
                                                 {{ $movement->type }}
                                             </span>
                                         </td>
                                         <td>{{ $movement->quantity }}</td>
-                                        <td><small>{{ $movement->createdBy->name }}</small></td>
+                                        <td><small>{{ $movement->createdBy ? $movement->createdBy->name : 'System' }}</small></td>
                                         <td><small style="color: var(--gray-500);">{{ $movement->notes ? Str::limit($movement->notes, 30) : '-' }}</small></td>
                                     </tr>
                                 @endforeach
@@ -295,53 +376,38 @@
                 </div>
             @endif
         </div>
-
-        <!-- Sidebar -->
-        <div>
-            <!-- Quick Stats -->
-            <div class="card sticky-sidebar">
-                <div class="card-header">
-                    <h5 style="margin: 0;">Quick Stats</h5>
-                </div>
-                <div class="card-body">
-                    <div style="margin-bottom: var(--spacing-lg);">
-                        <p class="detail-label">Loan Requests</p>
-                        <h3 style="margin: 0; color: var(--primary);">{{ $item->loanItems()->count() }}</h3>
-                    </div>
-                    <div style="margin-bottom: var(--spacing-lg);">
-                        <p class="detail-label">Condition Changes</p>
-                        <h3 style="margin: 0; color: var(--warning);">{{ $item->conditionLogs()->count() }}</h3>
-                    </div>
-                    <div>
-                        <p class="detail-label">Stock Movements</p>
-                        <h3 style="margin: 0; color: var(--info);">{{ $item->stockMovements()->count() }}</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Availability Status -->
-            <div class="card" style="margin-top: var(--spacing-lg);">
-                <div class="card-body" style="border: 2px solid {{ $item->isAvailable() ? 'var(--success)' : 'var(--danger)' }}; border-radius: var(--radius-lg); padding: var(--spacing-lg);">
-                    <h6 style="display: flex; align-items: center; gap: var(--spacing-sm); margin: 0 0 var(--spacing-md) 0;">
-                        <i class="bi bi-{{ $item->isAvailable() ? 'check-circle-fill' : 'x-circle-fill' }}" style="color: {{ $item->isAvailable() ? 'var(--success)' : 'var(--danger)' }};"></i>
-                        Availability
-                    </h6>
-                    @if ($item->isAvailable())
-                        <p style="color: var(--success); margin: 0; font-size: var(--font-size-sm);">✓ Available for borrowing</p>
-                    @else
-                        <p style="color: var(--danger); margin: 0; font-size: var(--font-size-sm);">✗ Not available for borrowing</p>
-                        <p style="color: var(--gray-500); margin: var(--spacing-md) 0 0 0; font-size: var(--font-size-xs);">
-                            @if ($item->available_stock === 0)
-                                Out of stock
-                            @else
-                                Condition: {{ $item->condition }}
-                            @endif
-                        </p>
-                    @endif
-                </div>
-            </div>
-        </div>
     </div>
 </div>
+
+<script>
+    function zoomImage(img) {
+        const modal = document.getElementById('imageModal');
+        modal.classList.add('active');
+    }
+
+    function closeImageZoom() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('active');
+    }
+
+    // Close modal when clicking outside image
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('imageModal');
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeImageZoom();
+                }
+            });
+            
+            // Close with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeImageZoom();
+                }
+            });
+        }
+    });
+</script>
 
 @endsection
