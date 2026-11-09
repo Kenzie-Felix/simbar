@@ -203,9 +203,9 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-pencil"></i>
-                Edit Location
+                {{ __('messages.edit_location') }}
             </h1>
-            <p>Update location details</p>
+            <p>{{ __('messages.update_location') }}</p>
         </div>
     </div>
 
@@ -225,14 +225,14 @@
             <!-- Info Card -->
             <div class="info-card">
                 <h6>
-                    <i class="bi bi-info-circle"></i> Location Info
+                    <i class="bi bi-info-circle"></i> {{ __('messages.item_details') }}
                 </h6>
                 <div class="info-item">
-                    <strong>Created:</strong><br>
+                    <strong>{{ __('messages.created') }}:</strong><br>
                     <span style="color: var(--gray-500); font-size: var(--font-size-xs);">{{ $location->created_at->format('M d, Y H:i') }}</span>
                 </div>
                 <div class="info-item">
-                    <strong>Updated:</strong><br>
+                    <strong>{{ __('messages.last_updated') }}:</strong><br>
                     <span style="color: var(--gray-500); font-size: var(--font-size-xs);">{{ $location->updated_at->format('M d, Y H:i') }}</span>
                 </div>
                 <div class="info-item">
@@ -244,7 +244,7 @@
             <!-- Danger Zone -->
             <div class="danger-card">
                 <h6>
-                    <i class="bi bi-exclamation-triangle"></i> Danger Zone
+                    <i class="bi bi-exclamation-triangle"></i> {{ __('messages.policy_violation') }}
                 </h6>
                 @if ($location->items()->count() > 0)
                     <p>Cannot delete this location because it has {{ $location->items()->count() }} item(s).</p>

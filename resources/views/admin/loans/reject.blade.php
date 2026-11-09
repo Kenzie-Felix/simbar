@@ -200,12 +200,12 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-x-circle"></i>
-                Tolak Permintaan Peminjaman
+                {{ __('messages.reject_loan_request') }}
             </h1>
-            <p>Berikan alasan untuk menolak permintaan peminjaman ini</p>
+            <p>{{ __('messages.explain_rejection_reason') }}</p>
         </div>
         <a href="{{ route('admin.loans.show', $loan) }}" class="btn btn-secondary">
-            <i class="bi bi-arrow-left"></i> Kembali
+            <i class="bi bi-arrow-left"></i> {{ __('messages.back') }}
         </a>
     </div>
 
@@ -215,25 +215,25 @@
         <div>
             <!-- Request Summary -->
             <div class="summary-card">
-                <h5>Permintaan Peminjaman #{{ $loan->id }}</h5>
+                <h5>{{ __('messages.loan_request') }}#{{ $loan->id }}</h5>
                 <div class="summary-item">
-                    <div class="summary-label">Anggota Staf</div>
+                    <div class="summary-label">{{ __('messages.staff_member') }}</div>
                     <div class="summary-value">{{ $loan->user->name }}</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-label">Tanggal Diminta</div>
+                    <div class="summary-label">{{ __('messages.date_requested') }}</div>
                     <div class="summary-value">{{ $loan->requested_at->format('d M Y H:i') }}</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-label">Barang yang Diminta</div>
-                    <div class="summary-value">{{ $loan->getTotalItemsCount() }} barang ({{ $loan->getTotalQuantity() }} unit)</div>
+                    <div class="summary-label">{{ __('messages.items_requested') }}</div>
+                    <div class="summary-value">{{ $loan->getTotalItemsCount() }} items ({{ $loan->getTotalQuantity() }} units)</div>
                 </div>
             </div>
 
             <!-- Rejection Form -->
             <div class="form-card">
                 <h5 style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--gray-900); margin-bottom: var(--spacing-lg); padding-bottom: var(--spacing-lg); border-bottom: 1px solid var(--gray-200);">
-                    <i class="bi bi-chat-left-text"></i> Alasan untuk Penolakan
+                    <i class="bi bi-chat-left-text"></i> {{ __('messages.rejection_reason') }}
                 </h5>
 
                 <form action="{{ route('admin.loans.reject', $loan) }}" method="POST">
@@ -242,18 +242,18 @@
                     <!-- Rejection Reason -->
                     <div class="form-group">
                         <label for="rejection_reason" class="form-label">
-                            Alasan untuk Penolakan <span class="required">*</span>
+                            {{ __('messages.rejection_reason') }} <span class="required">*</span>
                         </label>
                         <textarea 
                             class="form-control @error('rejection_reason') is-invalid @enderror" 
                             id="rejection_reason" 
                             name="rejection_reason" 
                             rows="5" 
-                            placeholder="Jelaskan mengapa Anda menolak pinjaman ini..."
+                            placeholder="{{ __('messages.explain_rejection_reason') }}..."
                             maxlength="500"
                             required
                         >{{ old('rejection_reason') }}</textarea>
-                        <div class="form-help">Maksimal 500 karakter</div>
+                        <div class="form-help">{{ __('messages.max_500_characters') }}</div>
                         @error('rejection_reason')
                             <div style="color: var(--danger); font-size: var(--font-size-xs); margin-top: var(--spacing-xs);">{{ $message }}</div>
                         @enderror
@@ -261,22 +261,22 @@
 
                     <!-- Quick Reasons -->
                     <div class="form-group">
-                        <label class="form-label">Alasan Cepat:</label>
+                        <label class="form-label">{{ __('messages.rejection_guidelines') }}:</label>
                         <div class="quick-reasons">
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Stok tidak cukup saat ini. Silakan kirim kembali ketika stok tersedia.')">
-                                Stok Tidak Cukup
+                            <button type="button" class="quick-reason-btn" onclick="setReason('{{ __('messages.stock_not_available') }}. Please resubmit when stock is available.')">
+                                {{ __('messages.stock_not_available') }}
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Kondisi barang tidak sesuai untuk dipinjam.')">
-                                Masalah Kondisi Barang
+                            <button type="button" class="quick-reason-btn" onclick="setReason('{{ __('messages.item_condition_not_suitable') }}.')">
+                                {{ __('messages.item_condition_not_suitable') }}
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Anggota staf memiliki barang kembalian yang harus diverifikasi terlebih dahulu.')">
-                                Pengembalian Tertunda
+                            <button type="button" class="quick-reason-btn" onclick="setReason('{{ __('messages.staff_has_pending_returns') }}.')">
+                                {{ __('messages.staff_has_pending_returns') }}
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Barang yang diminta telah dipesan untuk tujuan lain.')">
-                                Barang Dipesan
+                            <button type="button" class="quick-reason-btn" onclick="setReason('{{ __('messages.items_reserved_for_other') }}.')">
+                                {{ __('messages.items_reserved_for_other') }}
                             </button>
-                            <button type="button" class="quick-reason-btn" onclick="setReason('Tujuan peminjaman tidak sesuai dengan kebijakan inventaris.')">
-                                Pelanggaran Kebijakan
+                            <button type="button" class="quick-reason-btn" onclick="setReason('{{ __('messages.policy_violation') }}.')">
+                                {{ __('messages.policy_violation') }}
                             </button>
                         </div>
                     </div>
@@ -285,17 +285,17 @@
                     <div class="alert alert-info">
                         <i class="bi bi-info-circle alert-icon"></i>
                         <div>
-                            <strong>Catatan:</strong> Anggota staf akan diberitahu tentang penolakan dengan alasan yang diberikan. Stok tidak akan terpengaruh.
+                            <strong>Note:</strong> {{ __('messages.rejection_notification') }}
                         </div>
                     </div>
 
                     <!-- Action Buttons -->
                     <div class="action-buttons">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menolak permintaan peminjaman ini? Anggota staf akan diberitahu.')">
-                            <i class="bi bi-x-circle"></i> Konfirmasi Penolakan
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('{{ __('messages.reject_loan_request') }}?')">
+                            <i class="bi bi-x-circle"></i> {{ __('messages.confirm_rejection') }}
                         </button>
                         <a href="{{ route('admin.loans.show', $loan) }}" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left"></i> Batal
+                            <i class="bi bi-arrow-left"></i> {{ __('messages.cancel') }}
                         </a>
                     </div>
                 </form>
@@ -306,24 +306,24 @@
         <div>
             <!-- Rejection Guidelines -->
             <div class="sidebar-card">
-                <h6>Panduan Penolakan</h6>
+                <h6>{{ __('messages.rejection_guidelines') }}</h6>
                 <ul>
-                    <li><strong>Jelaskan:</strong> Jelaskan mengapa permintaan tidak dapat disetujui.</li>
-                    <li><strong>Membantu:</strong> Sarankan tindakan (misalnya, "kirim kembali ketika stok tersedia").</li>
-                    <li><strong>Profesional:</strong> Gunakan bahasa yang sopan.</li>
-                    <li><strong>Beri Tahu Staf:</strong> Alasan akan terlihat oleh anggota staf.</li>
-                    <li><strong>Tidak Ada Dampak Stok:</strong> Penolakan tidak mempengaruhi inventaris.</li>
+                    <li><strong>{{ __('messages.explain_rejection_reason') }}:</strong> Explain why the request cannot be approved.</li>
+                    <li><strong>{{ __('messages.help_suggest_action') }}:</strong> Suggest action (e.g., "resubmit when stock is available").</li>
+                    <li><strong>{{ __('messages.professional_language') }}:</strong> Use polite language.</li>
+                    <li><strong>{{ __('messages.notify_staff') }}:</strong> Reason will be visible to staff member.</li>
+                    <li><strong>{{ __('messages.no_stock_impact') }}:</strong> Rejection does not affect inventory.</li>
                 </ul>
             </div>
 
             <!-- Items in Request -->
             <div class="sidebar-card">
-                <h6>Barang dalam Permintaan</h6>
+                <h6>{{ __('messages.items_in_request') }}</h6>
                 @foreach ($loan->loanItems as $item)
                     <div style="margin-bottom: var(--spacing-md); font-size: var(--font-size-xs); color: var(--gray-600);">
                         <strong style="color: var(--gray-900); display: block;">{{ $item->item->name }}</strong>
                         <span style="color: var(--gray-500);">{{ $item->item->code }}</span><br>
-                        <span>Jml: <strong style="color: var(--gray-900);">{{ $item->quantity }}</strong> | Tersedia: <strong style="color: var(--primary);">{{ $item->item->available_stock }}</strong></span>
+                        <span>{{ __('messages.qty') }} <strong style="color: var(--gray-900);">{{ $item->quantity }}</strong> | {{ __('messages.available') }}: <strong style="color: var(--primary);">{{ $item->item->available_stock }}</strong></span>
                     </div>
                 @endforeach
             </div>

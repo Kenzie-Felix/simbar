@@ -165,9 +165,9 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-plus-circle"></i>
-                Create New Category
+                {{ __('messages.create_new_category') }}
             </h1>
-            <p>Add a new category to organize your items</p>
+            <p>{{ __('messages.add_new_category') }}</p>
         </div>
     </div>
 
@@ -184,14 +184,14 @@
         <!-- Info Card -->
         <div class="info-card">
             <h6>
-                <i class="bi bi-info-circle"></i> Tips
+                <i class="bi bi-info-circle"></i> {{ __('messages.tips') }}
             </h6>
             <ul>
-                <li>Category names must be unique</li>
-                <li>Use clear and descriptive names</li>
-                <li>Examples: Electronics, Furniture, Office Supplies</li>
-                <li>You can edit or delete categories later</li>
-                <li>Cannot delete categories with items</li>
+                <li>{{ __('messages.category_names_must_be_unique') }}</li>
+                <li>{{ __('messages.use_clear_descriptive_names') }}</li>
+                <li>{{ __('messages.example') }}</li>
+                <li>{{ __('messages.you_can_edit_or_delete_categories_later') }}</li>
+                <li>{{ __('messages.cannot_delete_categories_with_items') }}</li>
             </ul>
         </div>
     </div>

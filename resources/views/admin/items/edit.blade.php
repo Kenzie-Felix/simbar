@@ -192,9 +192,9 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-pencil"></i>
-                Edit Item
+                {{ __('messages.edit_item') }}
             </h1>
-            <p>Update item details</p>
+            <p>{{ __('messages.update') }}</p>
         </div>
     </div>
 
@@ -214,14 +214,14 @@
             <!-- Item Info -->
             <div class="info-card">
                 <h6>
-                    <i class="bi bi-info-circle"></i> Item Info
+                    <i class="bi bi-info-circle"></i> {{ __('messages.item_details') }}
                 </h6>
                 <div class="info-item">
-                    <strong>Created:</strong><br>
+                    <strong>{{ __('messages.created') }}:</strong><br>
                     <span style="color: var(--gray-500); font-size: var(--font-size-xs);">{{ $item->created_at->format('M d, Y H:i') }}</span>
                 </div>
                 <div class="info-item">
-                    <strong>Updated:</strong><br>
+                    <strong>{{ __('messages.last_updated') }}:</strong><br>
                     <span style="color: var(--gray-500); font-size: var(--font-size-xs);">{{ $item->updated_at->format('M d, Y H:i') }}</span>
                 </div>
                 <div class="info-item">
@@ -232,10 +232,10 @@
 
             <!-- Stock Summary -->
             <div class="stock-summary">
-                <h6>Stock Summary</h6>
+                <h6>{{ __('messages.stock_summary') }}</h6>
                 <p>
-                    <strong>Total Stock:</strong> {{ $item->total_stock }}<br>
-                    <strong>Available:</strong> <span style="color: var(--primary); font-weight: var(--font-weight-bold);">{{ $item->available_stock }}</span><br>
+                    <strong>{{ __('messages.total_stock') }}:</strong> {{ $item->total_stock }}<br>
+                    <strong>{{ __('messages.available') }}:</strong> <span style="color: var(--primary); font-weight: var(--font-weight-bold);">{{ $item->available_stock }}</span><br>
                     <strong>In Loans:</strong> {{ $item->total_stock - $item->available_stock }}
                 </p>
             </div>

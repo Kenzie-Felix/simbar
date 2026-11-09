@@ -203,9 +203,9 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-pencil"></i>
-                Edit Category
+                {{ __('messages.edit_category') }}
             </h1>
-            <p>Update category details</p>
+            <p>{{ __('messages.edit_category') }}</p>
         </div>
     </div>
 
@@ -225,14 +225,14 @@
             <!-- Info Card -->
             <div class="info-card">
                 <h6>
-                    <i class="bi bi-info-circle"></i> Category Info
+                    <i class="bi bi-info-circle"></i> {{ __('messages.item_details') }}
                 </h6>
                 <div class="info-item">
-                    <strong>Created:</strong><br>
+                    <strong>{{ __('messages.created') }}:</strong><br>
                     <span style="color: var(--gray-500); font-size: var(--font-size-xs);">{{ $category->created_at->format('M d, Y H:i') }}</span>
                 </div>
                 <div class="info-item">
-                    <strong>Updated:</strong><br>
+                    <strong>{{ __('messages.last_updated') }}:</strong><br>
                     <span style="color: var(--gray-500); font-size: var(--font-size-xs);">{{ $category->updated_at->format('M d, Y H:i') }}</span>
                 </div>
                 <div class="info-item">
@@ -244,7 +244,7 @@
             <!-- Danger Zone -->
             <div class="danger-card">
                 <h6>
-                    <i class="bi bi-exclamation-triangle"></i> Danger Zone
+                    <i class="bi bi-exclamation-triangle"></i> {{ __('messages.policy_violation') }}
                 </h6>
                 @if ($category->items()->count() > 0)
                     <p>Cannot delete this category because it has {{ $category->items()->count() }} item(s).</p>

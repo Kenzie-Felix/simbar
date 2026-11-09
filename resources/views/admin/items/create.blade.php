@@ -166,9 +166,9 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-plus-circle"></i>
-                Create New Item
+                {{ __('messages.create_item') }}
             </h1>
-            <p>Add a new item to inventory</p>
+            <p>{{ __('messages.add_new_category') }}</p>
         </div>
     </div>
 
@@ -187,15 +187,15 @@
             <!-- Required Fields -->
             <div class="info-card">
                 <h6>
-                    <i class="bi bi-info-circle"></i> Required Fields
+                    <i class="bi bi-info-circle"></i> {{ __('messages.required_fields') ?? 'Required Fields' }}
                 </h6>
                 <ul>
-                    <li>Item code (must be unique)</li>
-                    <li>Item name</li>
-                    <li>Category selection</li>
-                    <li>Location selection</li>
-                    <li>Total stock (initial quantity)</li>
-                    <li>Item condition</li>
+                    <li>{{ __('messages.item_code') }} ({{ __('messages.must_be_unique') ?? 'must be unique' }})</li>
+                    <li>{{ __('messages.item_name') }}</li>
+                    <li>{{ __('messages.category') }}</li>
+                    <li>{{ __('messages.location') }}</li>
+                    <li>{{ __('messages.total_stock') }}</li>
+                    <li>{{ __('messages.condition') }}</li>
                 </ul>
             </div>
 
@@ -204,12 +204,12 @@
             <!-- Tips -->
             <div class="info-card" style="margin-top: 0;">
                 <h6>
-                    <i class="bi bi-lightbulb"></i> Tips
+                    <i class="bi bi-lightbulb"></i> {{ __('messages.tips') }}
                 </h6>
                 <ul>
-                    <li>Use codes like: LT-001, MON-05</li>
+                    <li>{{ __('messages.eg_item_code') }}</li>
                     <li>Ensure stock quantity is accurate</li>
-                    <li>You can add more stock later via Stock In</li>
+                    <li>{{ __('messages.add_new_category') }}</li>
                 </ul>
             </div>
         </div>

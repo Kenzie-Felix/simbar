@@ -165,9 +165,9 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-plus-circle"></i>
-                Create New Location
+                {{ __('messages.create_new_location') }}
             </h1>
-            <p>Add a new storage location</p>
+            <p>{{ __('messages.add_new_location') }}</p>
         </div>
     </div>
 
@@ -184,14 +184,14 @@
         <!-- Info Card -->
         <div class="info-card">
             <h6>
-                <i class="bi bi-info-circle"></i> Tips
+                <i class="bi bi-info-circle"></i> {{ __('messages.tips') }}
             </h6>
             <ul>
-                <li>Location names must be unique</li>
-                <li>Use clear building/room names</li>
-                <li>Examples: Office A, Warehouse B, Storage Room</li>
-                <li>You can edit or delete locations later</li>
-                <li>Cannot delete locations with items</li>
+                <li>{{ __('messages.location_names_must_be_unique') }}</li>
+                <li>{{ __('messages.use_clear_building_or_room_names') }}</li>
+                <li>{{ __('messages.example_locations') }}</li>
+                <li>{{ __('messages.you_can_edit_or_delete_categories_later') }}</li>
+                <li>{{ __('messages.cannot_delete_categories_with_items') }}</li>
             </ul>
         </div>
     </div>

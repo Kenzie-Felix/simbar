@@ -108,7 +108,7 @@
     <div class="alert alert-danger">
         <i class="bi bi-exclamation-circle alert-icon"></i>
         <div>
-            <strong>Kesalahan Validasi</strong>
+            <strong>{{ __('messages.validation_error') }}</strong>
             <ul style="margin: var(--spacing-md) 0 0 0; padding-left: var(--spacing-lg);">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -120,7 +120,7 @@
 
 <div class="form-group">
     <label for="name" class="form-label">
-        Nama Kategori <span class="required">*</span>
+        {{ __('messages.category_name') }} <span class="required">*</span>
     </label>
     <input 
         type="text" 
@@ -128,35 +128,35 @@
         id="name" 
         name="name" 
         value="{{ old('name', $category->name ?? '') }}" 
-        placeholder="mis., Elektronik, Furnitur, Perlengkapan Kantor"
+        placeholder="{{ __('messages.eg_category') }}"
         maxlength="100"
         required
     >
     @error('name')
         <div class="error-message">{{ $message }}</div>
     @enderror
-    <div class="form-help">Maksimal 100 karakter</div>
+    <div class="form-help">{{ __('messages.max_100_characters') }}</div>
 </div>
 
 <div class="form-group">
-    <label for="description" class="form-label">Deskripsi</label>
+    <label for="description" class="form-label">{{ __('messages.description') }}</label>
     <textarea 
         class="form-control @error('description') is-invalid @enderror" 
         id="description" 
         name="description" 
         rows="4"
-        placeholder="Deskripsi opsional untuk kategori ini"
+        placeholder="{{ __('messages.optional_description_for_location') }}"
         maxlength="500"
     >{{ old('description', $category->description ?? '') }}</textarea>
     @error('description')
         <div class="error-message">{{ $message }}</div>
     @enderror
-    <div class="form-help">Maksimal 500 karakter</div>
+    <div class="form-help">{{ __('messages.max_500_characters') }}</div>
 </div>
 
 <div class="form-buttons">
     <button type="submit" class="btn btn-primary">
-        <i class="bi bi-check-circle"></i> {{ isset($category) ? 'Perbarui' : 'Buat' }} Kategori
+        <i class="bi bi-check-circle"></i> {{ isset($category) ? __('messages.update') : __('messages.create_category') }}
     </button>
-    <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">Batal</a>
+    <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">{{ __('messages.cancel') }}</a>
 </div>

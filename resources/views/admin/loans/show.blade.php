@@ -295,12 +295,12 @@
         <div>
             <h1>
                 <i class="bi bi-clipboard-check"></i>
-                Loan Request #{{ $loan->id }}
+                {{ __('messages.loan_request') }}#{{ $loan->id }}
             </h1>
-            <p class="page-subtitle">Review and take action on this loan request</p>
+            <p class="page-subtitle">{{ __('messages.review_loan_request') }}</p>
         </div>
         <a href="{{ route('admin.loans.index') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Back
+            <i class="bi bi-arrow-left"></i> {{ __('messages.back') }}
         </a>
     </div>
 
@@ -333,7 +333,7 @@
             <!-- Staff Information -->
             <div class="info-card">
                 <div class="card-header">
-                    <h5><i class="bi bi-person-circle"></i> Staff Information</h5>
+                    <h5><i class="bi bi-person-circle"></i> {{ __('messages.staff_member') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="detail-grid">
@@ -358,12 +358,12 @@
             <!-- Request Details -->
             <div class="info-card">
                 <div class="card-header">
-                    <h5><i class="bi bi-info-circle"></i> Request Details</h5>
+                    <h5><i class="bi bi-info-circle"></i> {{ __('messages.items_requested') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="detail-grid">
                         <div class="detail-field">
-                            <span class="detail-label">Requested Date</span>
+                            <span class="detail-label">{{ __('messages.date_requested') }}</span>
                             <span class="detail-value">{{ $loan->requested_at->format('d M Y H:i') }}</span>
                         </div>
                         <div class="detail-field">
@@ -408,17 +408,17 @@
             <!-- Items Requested -->
             <div class="info-card">
                 <div class="card-header">
-                    <h5><i class="bi bi-collection"></i> Items Requested</h5>
+                    <h5><i class="bi bi-collection"></i> {{ __('messages.items_requested') }}</h5>
                 </div>
                 <div class="card-body" style="padding: 0;">
                     <div style="overflow-x: auto;">
                         <table class="items-table">
                             <thead>
                                 <tr>
-                                    <th>Item Code</th>
-                                    <th>Item Name</th>
-                                    <th>Category</th>
-                                    <th style="text-align: center;">Qty</th>
+                                    <th>{{ __('messages.item_code') }}</th>
+                                    <th>{{ __('messages.item_name') }}</th>
+                                    <th>{{ __('messages.category') }}</th>
+                                    <th style="text-align: center;">{{ __('messages.qty') }}</th>
                                     <th style="text-align: center;">Current Stock</th>
                                     <th style="text-align: center;">Status</th>
                                 </tr>
@@ -442,9 +442,9 @@
                                         </td>
                                         <td style="text-align: center;">
                                             @if ($status['sufficient'])
-                                                <span class="status-badge status-available">✓ Available</span>
+                                                <span class="status-badge status-available">✓ {{ __('messages.available') }}</span>
                                             @else
-                                                <span class="status-badge status-insufficient">✗ Insufficient</span>
+                                                <span class="status-badge status-insufficient">✗ {{ __('messages.stock_not_available') }}</span>
                                             @endif
                                         </td>
                                     </tr>
@@ -459,7 +459,7 @@
             @if ($loan->approved_at)
                 <div class="info-card">
                     <div class="card-header">
-                        <h5><i class="bi bi-check-circle"></i> Approval History</h5>
+                        <h5><i class="bi bi-check-circle"></i> {{ __('messages.approval') ?? 'Approval History' }}</h5>
                     </div>
                     <div class="card-body">
                         <div class="detail-grid full">
@@ -498,11 +498,11 @@
             @if ($hasInsufficientStock && $loan->isPending())
                 <div class="action-card warning">
                     <div class="action-card-header">
-                        <h5><i class="bi bi-exclamation-triangle"></i> Stock Alert</h5>
+                        <h5><i class="bi bi-exclamation-triangle"></i> {{ __('messages.stock_not_available') }}</h5>
                     </div>
                     <div class="card-body">
                         <p style="margin: 0; font-size: var(--font-size-sm); color: #856404; line-height: 1.5;">
-                            Some items have insufficient stock available. Please review quantities before approving.
+                            {{ __('messages.item_condition_not_suitable') }}
                         </p>
                     </div>
                 </div>
@@ -517,13 +517,13 @@
                     <div class="card-body">
                         <form action="{{ route('admin.loans.approve', $loan) }}" method="POST" style="margin-bottom: var(--spacing-md);">
                             @csrf
-                            <button type="submit" class="btn btn-success" style="width: 100%;" @if ($hasInsufficientStock) disabled title="Cannot approve: insufficient stock" @endif>
-                                <i class="bi bi-check2"></i> Approve Request
+                            <button type="submit" class="btn btn-success" style="width: 100%;" @if ($hasInsufficientStock) disabled title="{{ __('messages.stock_not_available') }}" @endif>
+                                <i class="bi bi-check2"></i> {{ __('messages.approved') }}
                             </button>
                         </form>
 
                         <a href="{{ route('admin.loans.rejectForm', $loan) }}" class="btn btn-danger" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: var(--spacing-sm);">
-                            <i class="bi bi-x-circle"></i> Reject Request
+                            <i class="bi bi-x-circle"></i> {{ __('messages.rejected') }}
                         </a>
                     </div>
                 </div>
