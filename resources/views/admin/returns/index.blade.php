@@ -118,7 +118,7 @@
             </h1>
             <p>Review and verify return requests</p>
         </div>
-        <a href="{{ route('admin.returns.exportPending') }}" class="btn btn-outline-primary">
+        <a href="{{ route('admin.returns.exportPending') }}" class="btn btn-outline-primary" style="display: none;">
             <i class="bi bi-download"></i> Export Pending
         </a>
     </div>
@@ -210,7 +210,7 @@
                                     <td><small>{{ $return->getTotalReturnedQuantity() }} units</small></td>
                                     <td><small style="color: var(--gray-500);">{{ $return->submitted_at->format('d M Y H:i') }}</small></td>
                                     <td>
-                                        <span class="badge badge-{{ $return->status === 'Menunggu Verifikasi' ? 'warning' : ($return->status === 'Terima' ? 'success' : 'danger') }}">
+                                        <span class="badge badge-{{ $return->status === 'Pending Verification' ? 'warning' : ($return->status === 'Accepted' ? 'success' : 'danger') }}">
                                             {{ $statuses[$return->status] ?? $return->status }}
                                         </span>
                                     </td>

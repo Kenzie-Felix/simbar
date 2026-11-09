@@ -279,9 +279,9 @@
                     <h6 style="margin: 0 0 var(--spacing-md) 0; display: flex; align-items: center; gap: var(--spacing-md);">
                         <i class="bi bi-check-circle"></i> Ready to Borrow
                     </h6>
-                    <p style="margin: 0 0 var(--spacing-md) 0; font-size: var(--font-size-sm);">This item is available for borrowing.</p>
+                    <!-- <p style="margin: 0 0 var(--spacing-md) 0; font-size: var(--font-size-sm);">This item is available for borrowing.</p>
                     <a href="#" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: var(--spacing-sm);">
-                        <i class="bi bi-plus-circle"></i> Request to Borrow
+                        <i class="bi bi-plus-circle"></i> Request to Borrow -->
                     </a>
                     <p style="font-size: var(--font-size-xs); color: var(--gray-500); margin: var(--spacing-md) 0 0 0;">
                         Note: Loan request feature coming soon

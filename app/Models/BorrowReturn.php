@@ -21,9 +21,9 @@ class BorrowReturn extends Model
     /**
      * Status Constants
      */
-    const STATUS_PENDING = 'Menunggu Verifikasi';
-    const STATUS_ACCEPTED = 'Terima';
-    const STATUS_REJECTED = 'Tolak';
+    const STATUS_PENDING = 'Pending Verification';
+    const STATUS_ACCEPTED = 'Accepted';
+    const STATUS_REJECTED = 'Rejected';
 
     /**
      * Relationships

@@ -456,7 +456,7 @@
             </h1>
             <p>Review and manage pending loan requests</p>
         </div>
-        <a href="{{ route('admin.loans.exportPending') }}" class="btn btn-secondary">
+        <a href="{{ route('admin.loans.exportPending') }}" class="btn btn-secondary" style="display: none;">
             <i class="bi bi-download"></i> Export CSV
         </a>
     </div>
@@ -646,7 +646,14 @@
                                     <small style="color: var(--gray-600);">{{ $loan->requested_at->format('d M Y') }}<br><span style="font-size: 0.85em;">{{ $loan->requested_at->format('H:i') }}</span></small>
                                 </td>
                                 <td data-label="Status">
-                                    <span class="badge badge-{{ $loan->status === 'Pending Approval' ? 'warning' : ($loan->status === 'Approved' ? 'success' : ($loan->status === 'Rejected' ? 'danger' : 'info')) }}">
+                                    <span class="badge badge-{{ match($loan->status) {
+                                        'Pending Approval' => 'warning',
+                                        'Approved' => 'info',
+                                        'Borrowed' => 'primary',
+                                        'Returned' => 'success',
+                                        'Rejected' => 'danger',
+                                        default => 'secondary'
+                                    } }}">
                                         {{ $statuses[$loan->status] ?? $loan->status }}
                                     </span>
                                 </td>

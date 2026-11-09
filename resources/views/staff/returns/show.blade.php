@@ -158,7 +158,7 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg); padding-top: var(--spacing-md); border-top: 1px solid var(--gray-200);">
                         <div class="detail-field">
                             <span class="detail-label">Status</span>
-                            <span class="badge badge-{{ $return->status === 'Menunggu Verifikasi' ? 'warning' : ($return->status === 'Terima' ? 'success' : 'danger') }}" style="display: inline-block;">
+                            <span class="badge badge-{{ $return->status === 'Pending Verification' ? 'warning' : ($return->status === 'Accepted' ? 'success' : 'danger') }}" style="display: inline-block;">
                                 {{ $return->status }}
                             </span>
                         </div>
@@ -248,7 +248,7 @@
                 </div>
                 <div class="card-body">
                     <p style="color: var(--gray-500); margin: 0 0 var(--spacing-xs) 0; font-size: var(--font-size-sm);">Current Status</p>
-                    <span class="badge badge-{{ $return->status === 'Menunggu Verifikasi' ? 'warning' : ($return->status === 'Terima' ? 'success' : 'danger') }}" style="display: inline-block; padding: var(--spacing-sm) var(--spacing-md); font-size: var(--font-size-base);">
+                    <span class="badge badge-{{ $return->status === 'Pending Verification' ? 'warning' : ($return->status === 'Accepted' ? 'success' : 'danger') }}" style="display: inline-block; padding: var(--spacing-sm) var(--spacing-md); font-size: var(--font-size-base);">
                         {{ $return->status }}
                     </span>
 

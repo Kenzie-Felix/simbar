@@ -178,10 +178,14 @@
         color: #721c24;
     }
 
-    /* Sidebar */
     .sticky-sidebar {
+        position: relative;
+    }
+
+    .action-card {
         position: sticky;
-        top: 100px;
+        top: 80px;
+        margin-bottom: var(--spacing-lg);
     }
 
     .action-card {
@@ -268,6 +272,10 @@
         }
 
         .sticky-sidebar {
+            position: relative;
+        }
+
+        .action-card {
             position: relative;
             top: auto;
         }
@@ -368,7 +376,14 @@
                         </div>
                         <div class="detail-field">
                             <span class="detail-label">Status</span>
-                            <span class="badge badge-{{ $loan->status === 'Pending Approval' ? 'warning' : ($loan->status === 'Approved' ? 'success' : ($loan->status === 'Rejected' ? 'danger' : 'info')) }}" style="display: inline-block;">
+                            <span class="badge badge-{{ match($loan->status) {
+                                'Pending Approval' => 'warning',
+                                'Approved' => 'info',
+                                'Borrowed' => 'primary',
+                                'Returned' => 'success',
+                                'Rejected' => 'danger',
+                                default => 'secondary'
+                            } }}" style="display: inline-block;">
                                 {{ $loan->status }}
                             </span>
                         </div>
@@ -508,9 +523,9 @@
                 </div>
             @endif
 
-            <!-- Action Card -->
+            <!-- Action Card - HIDDEN -->
             @if ($loan->isPending())
-                <div class="action-card">
+                <div class="action-card" style="display: none;">
                     <div class="card-header">
                         <h5 style="color: var(--gray-900);">Take Action</h5>
                     </div>
@@ -545,7 +560,14 @@
                     </div>
                     <div class="card-body">
                         <p style="color: var(--gray-500); margin-bottom: var(--spacing-md);">This request has already been processed.</p>
-                        <span class="badge badge-{{ $loan->status === 'Approved' ? 'success' : ($loan->status === 'Rejected' ? 'danger' : 'info') }}" style="display: inline-block; padding: var(--spacing-sm) var(--spacing-md); font-size: var(--font-size-base);">
+                        <span class="badge badge-{{ match($loan->status) {
+                            'Pending Approval' => 'warning',
+                            'Approved' => 'info',
+                            'Borrowed' => 'primary',
+                            'Returned' => 'success',
+                            'Rejected' => 'danger',
+                            default => 'secondary'
+                        } }}" style="display: inline-block; padding: var(--spacing-sm) var(--spacing-md); font-size: var(--font-size-base);">
                             {{ $loan->status }}
                         </span>
 

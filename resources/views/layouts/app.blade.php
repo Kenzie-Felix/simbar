@@ -7,6 +7,11 @@
     <meta name="theme-color" content="#1e3a8a">
     <title>@yield('title', 'SIMBAR')</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="alternate icon" href="{{ asset('logo-simbar.svg') }}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{{ asset('logo-simbar.svg') }}">
+    
     <!-- Bootstrap 5 CSS from CDN (for form controls and components) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons from CDN -->

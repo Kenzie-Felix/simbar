@@ -243,7 +243,7 @@
                             <td data-label="Quantity">{{ $return->getTotalReturnedQuantity() }} units</td>
                             <td data-label="Submitted">{{ $return->submitted_at->format('d M Y H:i') }}</td>
                             <td data-label="Status">
-                                <span class="badge badge-{{ $return->status === 'Menunggu Verifikasi' ? 'warning' : ($return->status === 'Terima' ? 'success' : 'danger') }}">
+                                <span class="badge badge-{{ $return->status === 'Pending Verification' ? 'warning' : ($return->status === 'Accepted' ? 'success' : 'danger') }}">
                                     {{ $statuses[$return->status] ?? $return->status }}
                                 </span>
                             </td>

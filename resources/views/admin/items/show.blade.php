@@ -177,7 +177,9 @@
 
     .sticky-sidebar {
         position: sticky;
-        top: 100px;
+        top: 80px;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
     }
 
     @media (max-width: 1024px) {
@@ -192,6 +194,7 @@
         .sticky-sidebar {
             position: relative;
             top: auto;
+            max-height: none;
         }
     }
 </style>

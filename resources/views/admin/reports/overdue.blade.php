@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Peminjaman Terlambat - SIMBAR')
+@section('title', 'Overdue Loans Report - SIMBAR')
 
 @section('content')
 <style>
@@ -94,13 +94,13 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-exclamation-triangle"></i>
-                Laporan Peminjaman Terlambat
+                Overdue Loans Report
             </h1>
-            <p>Daftar barang yang belum dikembalikan melampaui tanggal jatuh tempo</p>
+            <p>List of items not returned past due date</p>
         </div>
         <div style="display: flex; gap: var(--spacing-md);">
             <a href="{{ route('admin.reports.dashboard') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> Kembali
+                <i class="bi bi-arrow-left"></i> Back
             </a>
         </div>
     </div>
@@ -115,19 +115,19 @@
         <div class="card-body">
             <form method="GET" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-md); align-items: end;">
                 <div>
-                    <label for="days_overdue" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Minimum Lama Keterlambatan</label>
+                    <label for="days_overdue" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Minimum Overdue Days</label>
                     <select class="form-select" id="days_overdue" name="days_overdue">
-                        <option value="">-- Tampilkan Semua --</option>
-                        <option value="1" {{ request('days_overdue') === '1' ? 'selected' : '' }}>1+ hari</option>
-                        <option value="7" {{ request('days_overdue') === '7' ? 'selected' : '' }}>1+ minggu</option>
-                        <option value="14" {{ request('days_overdue') === '14' ? 'selected' : '' }}>2+ minggu</option>
-                        <option value="30" {{ request('days_overdue') === '30' ? 'selected' : '' }}>1+ bulan</option>
+                        <option value="">-- Show All --</option>
+                        <option value="1" {{ request('days_overdue') === '1' ? 'selected' : '' }}>1+ days</option>
+                        <option value="7" {{ request('days_overdue') === '7' ? 'selected' : '' }}>1+ week</option>
+                        <option value="14" {{ request('days_overdue') === '14' ? 'selected' : '' }}>2+ weeks</option>
+                        <option value="30" {{ request('days_overdue') === '30' ? 'selected' : '' }}>1+ month</option>
                     </select>
                 </div>
                 <div>
-                    <label for="user_id" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Anggota Staf</label>
+                    <label for="user_id" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Staff Member</label>
                     <select class="form-select" id="user_id" name="user_id">
-                        <option value="">-- Semua Staf --</option>
+                        <option value="">-- All Staff --</option>
                         @foreach (\App\Models\User::where('role', 'Staff')->where('is_active', true)->get() as $user)
                             <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
                                 {{ $user->name }}
@@ -136,12 +136,12 @@
                     </select>
                 </div>
                 <div>
-                    <label for="search" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Cari (Nama/Email)</label>
-                    <input type="text" class="form-control" id="search" name="search" placeholder="Cari staf..." value="{{ request('search') }}">
+                    <label for="search" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Search (Name/Email)</label>
+                    <input type="text" class="form-control" id="search" name="search" placeholder="Search staff..." value="{{ request('search') }}">
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        <i class="bi bi-search"></i> Terapkan
+                        <i class="bi bi-search"></i> Apply
                     </button>
                 </div>
             </form>
@@ -153,9 +153,9 @@
         <div class="alert alert-danger" style="padding: var(--spacing-lg); border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg); display: flex; align-items: flex-start; gap: var(--spacing-md);">
             <i class="bi bi-exclamation-triangle-fill" style="font-size: 1.25rem; flex-shrink: 0;"></i>
             <div>
-                <strong>{{ $overdueLoans->total() }} peminjaman terlambat terdeteksi!</strong>
+                <strong>{{ $overdueLoans->total() }} overdue loans detected!</strong>
                 <p style="margin: var(--spacing-xs) 0 0 0; font-size: var(--font-size-sm);">
-                    Silakan hubungi anggota staf untuk segera mengambil kembali barang.
+                    Please contact the staff member to retrieve the items immediately.
                 </p>
             </div>
         </div>
@@ -164,19 +164,19 @@
     <!-- Results -->
     <div class="table-card">
         <div style="padding: var(--spacing-lg); background-color: var(--gray-50); border-bottom: 1px solid var(--gray-200);">
-            <h5 style="margin: 0;">Peminjaman Terlambat ({{ $overdueLoans->total() }} total)</h5>
+            <h5 style="margin: 0;">Overdue Loans ({{ $overdueLoans->total() }} total)</h5>
         </div>
         @if ($overdueLoans->count() > 0)
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
                         <tr>
-                            <th>ID Peminjaman</th>
-                            <th>Nama Staf</th>
+                            <th>Loan ID</th>
+                            <th>Staff Name</th>
                             <th>Email</th>
-                            <th>Barang</th>
-                            <th>Tanggal Jatuh Tempo</th>
-                            <th>Lama Keterlambatan</th>
+                            <th>Item</th>
+                            <th>Due Date</th>
+                            <th>Days Overdue</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -213,7 +213,7 @@
                                 </td>
                                 <td>
                                     <span class="badge badge-{{ $daysOverdue > 14 ? 'danger' : ($daysOverdue > 7 ? 'warning' : 'info') }}">
-                                        {{ $daysOverdue }} hari
+                                        {{ $daysOverdue }} days
                                     </span>
                                 </td>
                             </tr>
@@ -224,7 +224,7 @@
         @else
             <div style="padding: var(--spacing-2xl); text-align: center;">
                 <i class="bi bi-check-circle" style="font-size: 2rem; color: var(--gray-300); margin-bottom: var(--spacing-md); display: block;"></i>
-                <p style="color: var(--gray-500); margin: 0;">Tidak ada peminjaman terlambat - Sempurna!</p>
+                <p style="color: var(--gray-500); margin: 0;">No overdue loans - Perfect!</p>
             </div>
         @endif
     </div>

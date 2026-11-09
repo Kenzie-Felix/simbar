@@ -37,9 +37,9 @@ class ReturnVerificationController extends Controller
         $returns = $query->latest('submitted_at')->paginate(20);
 
         $statuses = [
-            'Menunggu Verifikasi' => 'Pending Verification',
-            'Terima' => 'Accepted',
-            'Tolak' => 'Rejected',
+            'Pending Verification' => 'Pending Verification',
+            'Accepted' => 'Accepted',
+            'Rejected' => 'Rejected',
         ];
 
         // Statistics

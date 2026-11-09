@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Inventaris - SIMBAR')
+@section('title', 'Inventory Report - SIMBAR')
 
 @section('content')
 <style>
@@ -64,13 +64,13 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-archive"></i>
-                Laporan Inventaris
+                Inventory Report
             </h1>
-            <p>Status stok dan inventaris saat ini</p>
+            <p>Current stock status and inventory</p>
         </div>
         <div style="display: flex; gap: var(--spacing-sm);">
             <a href="{{ route('admin.reports.dashboard') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> Kembali
+                <i class="bi bi-arrow-left"></i> Back
             </a>
         </div>
     </div>
@@ -80,9 +80,9 @@
         <div class="card-body">
             <form method="GET" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-md); align-items: end;">
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Kategori</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Category</label>
                     <select class="form-select" name="category_id">
-                        <option value="">-- Semua Kategori --</option>
+                        <option value="">-- All Categories --</option>
                         @foreach (\App\Models\Category::all() as $category)
                             <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                                 {{ $category->name }}
@@ -91,9 +91,9 @@
                     </select>
                 </div>
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Lokasi</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Location</label>
                     <select class="form-select" name="location_id">
-                        <option value="">-- Semua Lokasi --</option>
+                        <option value="">-- All Locations --</option>
                         @foreach (\App\Models\Location::all() as $location)
                             <option value="{{ $location->id }}" {{ request('location_id') == $location->id ? 'selected' : '' }}>
                                 {{ $location->name }}
@@ -102,16 +102,16 @@
                     </select>
                 </div>
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Level Stok</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-size-sm);">Stock Level</label>
                     <select class="form-select" name="stock_level">
-                        <option value="">-- Semua Level --</option>
-                        <option value="good" {{ request('stock_level') === 'good' ? 'selected' : '' }}>Baik (> 5)</option>
-                        <option value="low" {{ request('stock_level') === 'low' ? 'selected' : '' }}>Rendah (1-5)</option>
-                        <option value="out" {{ request('stock_level') === 'out' ? 'selected' : '' }}>Habis (0)</option>
+                        <option value="">-- All Levels --</option>
+                        <option value="good" {{ request('stock_level') === 'good' ? 'selected' : '' }}>Good (> 5)</option>
+                        <option value="low" {{ request('stock_level') === 'low' ? 'selected' : '' }}>Low (1-5)</option>
+                        <option value="out" {{ request('stock_level') === 'out' ? 'selected' : '' }}>Out of Stock (0)</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-funnel"></i> Saringan
+                    <i class="bi bi-funnel"></i> Filter
                 </button>
             </form>
         </div>
@@ -163,11 +163,11 @@
                                     </td>
                                     <td>
                                         @if ($item->available_stock === 0)
-                                            <span class="badge badge-danger">Habis Stok</span>
+                                            <span class="badge badge-danger">Out of Stock</span>
                                         @elseif ($item->available_stock <= 5)
-                                            <span class="badge badge-warning">Stok Rendah</span>
+                                            <span class="badge badge-warning">Low Stock</span>
                                         @else
-                                            <span class="badge badge-success">Baik</span>
+                                            <span class="badge badge-success">Available</span>
                                         @endif
                                     </td>
                                 </tr>
@@ -191,7 +191,7 @@
                     <i class="bi bi-inbox" style="font-size: 3rem; color: var(--gray-400);"></i>
                 </div>
                 <p class="empty-state-text" style="font-size: var(--font-size-base); color: var(--gray-500);">
-                    Tidak ada item inventaris yang ditemukan
+                    No inventory items found
                 </p>
             </div>
         </div>

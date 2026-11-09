@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .box-shadow { filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1)); }
+    </style>
+  </defs>
+  
+  <!-- Top Box -->
+  <g class="box-shadow">
+    <!-- Top face (lighter) -->
+    <polygon points="100,50 130,65 130,105 100,90" fill="#1e40af" opacity="0.9"/>
+    <!-- Left face (darker) -->
+    <polygon points="100,50 70,65 70,105 100,90" fill="#1e3a8a" opacity="0.8"/>
+    <!-- Right face (medium) -->
+    <polygon points="130,65 100,50 100,90 130,105" fill="#2563eb" opacity="0.85"/>
+  </g>
+  
+  <!-- Bottom Left Box -->
+  <g class="box-shadow">
+    <!-- Top face -->
+    <polygon points="70,105 100,120 100,160 70,145" fill="#1e40af" opacity="0.9"/>
+    <!-- Left face -->
+    <polygon points="70,105 40,120 40,160 70,145" fill="#1e3a8a" opacity="0.8"/>
+    <!-- Right face -->
+    <polygon points="100,120 70,105 70,145 100,160" fill="#2563eb" opacity="0.85"/>
+  </g>
+  
+  <!-- Bottom Right Box -->
+  <g class="box-shadow">
+    <!-- Top face -->
+    <polygon points="130,105 160,120 160,160 130,145" fill="#1e40af" opacity="0.9"/>
+    <!-- Left face -->
+    <polygon points="130,105 100,120 100,160 130,145" fill="#1e3a8a" opacity="0.8"/>
+    <!-- Right face -->
+    <polygon points="160,120 130,105 130,145 160,160" fill="#2563eb" opacity="0.85"/>
+  </g>
+  
+  <!-- Glow effect -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#2563eb" stroke-width="0.5" opacity="0.3"/>
+</svg>

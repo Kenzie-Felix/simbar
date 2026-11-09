@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Peminjaman - SIMBAR')
+@section('title', 'Loan Report - SIMBAR')
 
 @section('content')
 <style>
@@ -78,13 +78,13 @@
         <div class="page-header-content">
             <h1>
                 <i class="bi bi-file-earmark-text"></i>
-                Laporan Peminjaman
+                Loan Report
             </h1>
-            <p>Lihat dan analisis transaksi peminjaman</p>
+            <p>View and analyze loan transactions</p>
         </div>
         <div style="display: flex; gap: var(--spacing-md);">
             <a href="{{ route('admin.reports.dashboard') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> Kembali
+                <i class="bi bi-arrow-left"></i> Back
             </a>
         </div>
     </div>
@@ -99,17 +99,17 @@
         <div class="card-body">
             <form method="GET" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-md); align-items: end;">
                 <div>
-                    <label for="date_from" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Dari Tanggal</label>
+                    <label for="date_from" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">From Date</label>
                     <input type="date" class="form-control" id="date_from" name="date_from" value="{{ request('date_from') }}">
                 </div>
                 <div>
-                    <label for="date_to" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Sampai Tanggal</label>
+                    <label for="date_to" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">To Date</label>
                     <input type="date" class="form-control" id="date_to" name="date_to" value="{{ request('date_to') }}">
                 </div>
                 <div>
                     <label for="status" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Status</label>
                     <select class="form-select" id="status" name="status">
-                        <option value="">-- Semua Status --</option>
+                        <option value="">-- All Status --</option>
                         @foreach ($statuses as $key => $label)
                             <option value="{{ $key }}" {{ request('status') === $key ? 'selected' : '' }}>
                                 {{ $label }}
@@ -118,12 +118,12 @@
                     </select>
                 </div>
                 <div>
-                    <label for="user_id" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Anggota Staf</label>
+                    <label for="user_id" class="form-label" style="font-size: var(--font-size-sm); color: var(--gray-700);">Staff Member</label>
                     <input 
                         type="text" 
                         id="staffSearch" 
                         class="form-control" 
-                        placeholder="Cari berdasarkan nama atau email..."
+                        placeholder="Search by name or email..."
                         style="font-size: var(--font-size-sm);"
                     >
                     <input type="hidden" id="user_id" name="user_id" value="{{ request('user_id') }}">
@@ -132,7 +132,7 @@
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        <i class="bi bi-search"></i> Terapkan Saringan
+                        <i class="bi bi-search"></i> Apply Filter
                     </button>
                 </div>
             </form>
@@ -142,21 +142,21 @@
     <!-- Results -->
     <div class="table-card">
         <div style="padding: var(--spacing-lg); background-color: var(--gray-50); border-bottom: 1px solid var(--gray-200);">
-            <h5 style="margin: 0;">Data Peminjaman ({{ $loans->total() }} total)</h5>
+            <h5 style="margin: 0;">Loan Data ({{ $loans->total() }} total)</h5>
         </div>
         @if ($loans->count() > 0)
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
                         <tr>
-                            <th>ID Peminjaman</th>
-                            <th>Anggota Staf</th>
+                            <th>Loan ID</th>
+                            <th>Staff Member</th>
                             <th>Status</th>
-                            <th>Barang</th>
+                            <th>Items</th>
                             <th>Qty</th>
-                            <th>Diminta</th>
-                            <th>Disetujui</th>
-                            <th>Aksi</th>
+                            <th>Requested</th>
+                            <th>Approved</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -169,11 +169,11 @@
                                 </td>
                                 <td>
                                     <span class="badge badge-{{ match($loan->status) {
-                                        'Menunggu Persetujuan' => 'warning',
-                                        'Disetujui' => 'info',
-                                        'Dipinjam' => 'primary',
-                                        'Dikembalikan' => 'success',
-                                        'Ditolak' => 'danger',
+                                        'Pending Approval' => 'warning',
+                                        'Approved' => 'info',
+                                        'Borrowed' => 'primary',
+                                        'Returned' => 'success',
+                                        'Rejected' => 'danger',
                                         default => 'secondary'
                                     } }}">
                                         {{ $loan->status }}
@@ -191,7 +191,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('admin.loans.show', $loan) }}" class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-eye"></i> Lihat
+                                        <i class="bi bi-eye"></i> View
                                     </a>
                                 </td>
                             </tr>

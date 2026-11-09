@@ -255,7 +255,7 @@
 
 <!-- Image Upload Section -->
 <div class="form-group">
-    <label for="image" class="form-label">Gambar Barang</label>
+    <label for="image" class="form-label">Image</label>
     
     <!-- Image Preview Container -->
     <div id="imagePreviewContainer" style="margin-bottom: var(--spacing-md);">

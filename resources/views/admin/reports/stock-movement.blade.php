@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Stock Movement Reports - SIMBAR')
+@section('title', 'Stock Movement Report - SIMBAR')
 
 @section('content')
 <style>

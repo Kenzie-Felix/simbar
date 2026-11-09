@@ -7,8 +7,8 @@
 
         <!-- Brand with Logo -->
         <div class="navbar-brand" style="font-size: 1.5rem; font-weight: var(--font-weight-bold); letter-spacing: -0.5px; margin-left: var(--spacing-md);">
-            <a href="{{ route('dashboard') }}" style="text-decoration: none; display: flex; align-items: center;">
-                <i class="bi bi-boxes" style="margin-right: var(--spacing-sm); color: var(--primary);" aria-hidden="true"></i>
+            <a href="{{ route('dashboard') }}" style="text-decoration: none; display: flex; align-items: center; gap: var(--spacing-sm);">
+                <img src="{{ asset('logo-simbar.svg') }}" alt="SIMBAR Logo" style="width: 32px; height: 32px; display: block;" />
                 <span style="background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">SIMBAR</span>
             </a>
         </div>

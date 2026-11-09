@@ -29,9 +29,9 @@ class ReturnRequestController extends Controller
         $returns = $query->latest('submitted_at')->paginate(15);
 
         $statuses = [
-            'Menunggu Verifikasi' => 'Pending Verification',
-            'Terima' => 'Accepted',
-            'Tolak' => 'Rejected',
+            'Pending Verification' => 'Pending Verification',
+            'Accepted' => 'Accepted',
+            'Rejected' => 'Rejected',
         ];
 
         return view('staff.returns.index', compact('returns', 'statuses'));
